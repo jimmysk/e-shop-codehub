@@ -2,8 +2,7 @@ package com.codehub.spring.eshop.domain;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -16,11 +15,16 @@ import java.util.UUID;
 @Data
 public class AccessToken {
 
-    private int userId;
+    @OneToOne(optional = false)
+    @JoinColumn(name = "user_id")
+    private Long userId;
 
+    @Column(name = "access_token", nullable = false)
     private UUID accessToken;
 
+    @Column(name = "created_on", nullable = false)
     private Instant createdOn;
 
+    @Column(name = "expires_in", nullable = false)
     private Instant expiresIn;
 }

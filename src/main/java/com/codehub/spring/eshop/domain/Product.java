@@ -3,8 +3,7 @@ package com.codehub.spring.eshop.domain;
 import com.codehub.spring.eshop.enums.MetricUnit;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 /**
@@ -16,23 +15,41 @@ import java.math.BigDecimal;
 @Data
 public class Product {
 
-    private int id;
+    @Id
+    @Column(name = "product_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private int categoryId;
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private ProductCategory productCategory;
 
+    @Column(name = "product_desc")
     private String productDesc;
 
+    @Column(name = "other_product_info")
     private String otherProductInfo;
 
+    @Column(name = "keywords")
     private String keywords;
 
+    @Column(name = "price")
     private BigDecimal price;
 
+    @Column(name = "metric_unit")
+    @Enumerated(EnumType.STRING)
     private MetricUnit metricUnit;
 
+    @Column(name = "stock")
     private BigDecimal stock;
 
+    @Column(name = "stock_level")
     private BigDecimal stockLevel;
 
+    @Column(name = "tax")
     private BigDecimal tax;
+
+    @ManyToOne
+    @JoinColumn(name = "cart_id", nullable = false)
+    private Cart cart;
 }

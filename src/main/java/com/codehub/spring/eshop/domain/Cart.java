@@ -2,10 +2,10 @@ package com.codehub.spring.eshop.domain;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.Set;
 
 /**
  * Created by Dimitris on 14/5/2018.
@@ -16,15 +16,27 @@ import java.time.Instant;
 @Data
 public class Cart {
 
-    private int userId;
+    @Id
+    @Column(name = "cart_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long cartId;
 
-    private int productId;
+    @OneToOne(optional = false)
+    @JoinColumn(name = "user_id")
+    private Long userId;
 
+    @OneToMany(mappedBy = "cart")
+    private Set<Product> products;
+
+    @Column(name = "price")
     private BigDecimal price;
 
+    @Column(name = "tax")
     private BigDecimal tax;
 
+    @Column(name = "quantity")
     private BigDecimal quantity;
 
+    @Column(name = "date_added")
     private Instant dateAdded;
 }

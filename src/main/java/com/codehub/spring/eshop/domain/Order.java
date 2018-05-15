@@ -3,8 +3,7 @@ package com.codehub.spring.eshop.domain;
 import com.codehub.spring.eshop.enums.OrderStatus;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.Instant;
 
@@ -17,15 +16,25 @@ import java.time.Instant;
 @Data
 public class Order {
 
+    @Id
+    @Column(name = "order_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private int userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
+    @Column(name = "order_date")
     private Instant orderDate;
 
+    @Column(name = "amount")
     private BigDecimal amount;
 
+    @Column(name = "tax")
     private BigDecimal tax;
 
+    @Column(name = "order_status")
+    @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 }
