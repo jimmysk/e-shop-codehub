@@ -15,13 +15,18 @@ import java.time.Instant;
 @Data
 public class OrderItem {
 
-    @OneToOne(optional = false)
-    @JoinColumn(name = "order_id")
-    private int orderId;
+    @Id
+    @Column(name = "order_item_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @OneToOne(optional = false)
-    @JoinColumn(name = "product_id")
-    private int productId;
+    @JoinColumn(name = "order_id", nullable = false)
+    private Order order;
+
+    @OneToOne(optional = false)
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
 
     @Column(name = "price")
     private BigDecimal price;

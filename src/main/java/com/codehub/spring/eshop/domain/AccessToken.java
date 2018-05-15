@@ -15,9 +15,14 @@ import java.util.UUID;
 @Data
 public class AccessToken {
 
+    @Id
+    @Column(name = "access_token_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @OneToOne(optional = false)
-    @JoinColumn(name = "user_id")
-    private Long userId;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @Column(name = "access_token", nullable = false)
     private UUID accessToken;

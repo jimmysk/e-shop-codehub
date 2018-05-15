@@ -22,8 +22,8 @@ public class Cart {
     private Long cartId;
 
     @OneToOne(optional = false)
-    @JoinColumn(name = "user_id")
-    private Long userId;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @OneToMany(mappedBy = "cart")
     private Set<Product> products;

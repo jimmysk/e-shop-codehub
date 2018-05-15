@@ -1,0 +1,2 @@
+insert into users(email, password, first_name, last_name, street, street_number, postal_code, city, country, role) values
+('test@gmail.com', '123456', 'Dimitris', 'Papadop', 'Eirinis', '12', '15121', 'Athens', 'Greece', 'ADMIN')
