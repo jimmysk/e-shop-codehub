@@ -1,0 +1,22 @@
+package com.codehub.spring.eshop.service.impl;
+
+import com.codehub.spring.eshop.domain.Order;
+import com.codehub.spring.eshop.enums.OrderStatus;
+import com.codehub.spring.eshop.service.OrderService;
+
+public class OrderServiceImpl implements OrderService {
+    @Override
+    public Order saveOrder(Order order) {
+        return null;
+    }
+
+    @Override
+    public Order updateOrderStatus(int id, OrderStatus orderStatus) {
+        return null;
+    }
+
+    @Override
+    public Order findOrderById(int id) {
+        return null;
+    }
+}
