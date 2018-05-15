@@ -3,9 +3,11 @@ package com.codehub.spring.eshop.service.impl;
 import com.codehub.spring.eshop.domain.Product;
 import com.codehub.spring.eshop.domain.ProductCategory;
 import com.codehub.spring.eshop.service.ProductService;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
+@Service
 public class ProductServiceImpl implements ProductService {
     @Override
     public ProductCategory saveCategory(ProductCategory productCategory) {

@@ -1,9 +1,11 @@
 package com.codehub.spring.eshop.service.impl;
 
 import com.codehub.spring.eshop.service.CartService;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
+@Service
 public class CartServiceImpl implements CartService {
     @Override
     public void addItem(int productId, BigDecimal quantity) {

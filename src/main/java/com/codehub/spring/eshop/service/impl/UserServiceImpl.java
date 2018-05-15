@@ -4,7 +4,9 @@ import com.codehub.spring.eshop.domain.AccessToken;
 import com.codehub.spring.eshop.domain.User;
 import com.codehub.spring.eshop.service.UserService;
 import com.sun.tools.javac.util.List;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserServiceImpl implements UserService {
     @Override
     public User save(User user) {
