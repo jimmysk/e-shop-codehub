@@ -2,7 +2,8 @@ package com.codehub.spring.eshop.service;
 
 import com.codehub.spring.eshop.domain.AccessToken;
 import com.codehub.spring.eshop.domain.User;
-import com.sun.tools.javac.util.List;
+
+import java.util.List;
 
 public interface UserService {
 
