@@ -1,5 +1,6 @@
 package com.codehub.spring.eshop.domain;
 
+import com.codehub.spring.eshop.enums.Size;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -25,7 +26,7 @@ public class Cart {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "cart")
+    @OneToMany
     private Set<Product> products;
 
     @Column(name = "price")
@@ -39,4 +40,7 @@ public class Cart {
 
     @Column(name = "date_added")
     private Instant dateAdded;
+
+    @Column(name = "size")
+    private Size size;
 }

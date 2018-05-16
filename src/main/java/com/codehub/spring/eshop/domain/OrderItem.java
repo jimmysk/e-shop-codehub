@@ -1,5 +1,6 @@
 package com.codehub.spring.eshop.domain;
 
+import com.codehub.spring.eshop.enums.Size;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -39,5 +40,9 @@ public class OrderItem {
 
     @Column(name = "date_added")
     private Instant dateAdded;
+
+    @Column(name = "size")
+    private Size size;
+
 
 }

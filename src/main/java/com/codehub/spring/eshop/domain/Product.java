@@ -48,8 +48,4 @@ public class Product {
 
     @Column(name = "tax")
     private BigDecimal tax;
-
-    @ManyToOne
-    @JoinColumn(name = "cart_id", nullable = false)
-    private Cart cart;
 }
