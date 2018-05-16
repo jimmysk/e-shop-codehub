@@ -2,6 +2,8 @@ package com.codehub.spring.eshop.service.impl;
 
 import com.codehub.spring.eshop.domain.Product;
 import com.codehub.spring.eshop.domain.ProductCategory;
+import com.codehub.spring.eshop.exception.EShopException;
+import com.codehub.spring.eshop.exception.ProductCategoryNotFoundException;
 import com.codehub.spring.eshop.repository.ProductCategoryRepository;
 import com.codehub.spring.eshop.repository.ProductRepository;
 import com.codehub.spring.eshop.service.ProductService;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -21,51 +24,54 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductCategory saveCategory(ProductCategory productCategory) {
-        return null;
+        return productCategoryRepository.save(productCategory);
     }
 
     @Override
-    public void deleteCategoryById(int id) {
-
+    public void deleteCategoryById(Long id) {
+        productCategoryRepository.deleteById(id);
     }
 
     @Override
-    public void findCategoryById(int id) {
-
+    public Optional<ProductCategory> findCategoryById(Long id) {
+        return productCategoryRepository.findById(id);
     }
 
     @Override
     public Collection<ProductCategory> findAllCategories() {
-        return null;
+        return productCategoryRepository.findAll();
     }
 
     @Override
-    public Product saveProduct(Product product) {
-        return null;
+    public Product saveProduct(Product product) throws EShopException {
+        if (!findCategoryById(product.getProductCategory().getId()).isPresent()) {
+            throw new ProductCategoryNotFoundException();
+        }
+        return productRepository.save(product);
     }
 
     @Override
-    public void deleteProductById(int id) {
-
+    public void deleteProductById(Long id) {
+        productRepository.deleteById(id);
     }
 
     @Override
-    public Product findProductById(int id) {
-        return null;
+    public Optional<Product> findProductById(Long id) {
+        return productRepository.findById(id);
     }
 
     @Override
     public Collection<Product> findAllProducts() {
-        return null;
+        return productRepository.findAll();
     }
 
     @Override
-    public Collection<Product> findProductsByCategory(int categoryId) {
-        return null;
+    public Collection<Product> findProductsByCategory(Long categoryId) {
+        return productRepository.findAllByProductCategory(categoryId);
     }
 
     @Override
     public Collection<Product> findProductsByKeyword(String keyword) {
-        return null;
+        return productRepository.findAllByKeywordsIsContaining(keyword);
     }
 }
