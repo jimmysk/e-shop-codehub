@@ -2,13 +2,23 @@ package com.codehub.spring.eshop.service.impl;
 
 import com.codehub.spring.eshop.domain.Product;
 import com.codehub.spring.eshop.domain.ProductCategory;
+import com.codehub.spring.eshop.repository.ProductCategoryRepository;
+import com.codehub.spring.eshop.repository.ProductRepository;
 import com.codehub.spring.eshop.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+
+    @Autowired
+    ProductRepository productRepository;
+
+    @Autowired
+    ProductCategoryRepository productCategoryRepository;
+
     @Override
     public ProductCategory saveCategory(ProductCategory productCategory) {
         return null;

@@ -20,7 +20,7 @@ public class OrderItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(optional = false)
+    @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
@@ -39,4 +39,5 @@ public class OrderItem {
 
     @Column(name = "date_added")
     private Instant dateAdded;
+
 }

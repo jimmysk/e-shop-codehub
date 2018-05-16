@@ -6,6 +6,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.Set;
 
 /**
  * Created by Dimitris on 14/5/2018.
@@ -37,5 +38,8 @@ public class Order {
     @Column(name = "order_status")
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
+
+    @OneToMany(mappedBy = "order")
+    private Set<OrderItem> orderItems;
 
 }
