@@ -54,11 +54,11 @@ public class UserController {
     }
 
     @PutMapping(value = "user/update" , consumes = "application/json", produces = "application/json")
-    public ResponseEntity<User> updateUser(@RequestBody String userId, User user) {
-        userService.update(userId,user);
+    public ResponseEntity<User> updateUser(@RequestBody User user) {
+        userService.update(user);
         return ResponseEntity
                 .ok()
-                .body(userService.findById (userId));
+                .body(userService.findById (user.getId().toString()));
     }
 
     @PostMapping(value = "user/login")

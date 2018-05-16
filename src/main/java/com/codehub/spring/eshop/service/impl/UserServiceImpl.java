@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User update(String userId, User user) {
+    public User update(User user) {
         return null;
     }
 

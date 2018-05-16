@@ -11,7 +11,7 @@ public interface UserService {
 
     public AccessToken login(String username, String password);
 
-    public User update(String userId, User user);
+    public User update(User user);
 
     public void logout(String accessToken);
 
