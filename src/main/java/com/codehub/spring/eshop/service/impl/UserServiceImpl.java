@@ -25,6 +25,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User update(String userId, User user) {
+        return null;
+    }
+
+    @Override
     public AccessToken login(String username, String password) {
         return null;
     }

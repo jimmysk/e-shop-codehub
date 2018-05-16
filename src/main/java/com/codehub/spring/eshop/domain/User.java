@@ -2,6 +2,8 @@ package com.codehub.spring.eshop.domain;
 
 import com.codehub.spring.eshop.enums.Role;
 import lombok.Data;
+import lombok.Getter;
+import lombok.AccessLevel;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -30,6 +32,7 @@ public class User {
 
     @NotBlank(message = "Password is necessary field")
     @Column(name = "password", nullable = false)
+    @Getter(AccessLevel.PRIVATE)
     private String password;
 
     @Column(name = "first_name", nullable = false)
