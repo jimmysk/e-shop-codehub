@@ -7,6 +7,8 @@ import com.codehub.spring.eshop.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class OrderServiceImpl implements OrderService {
 
@@ -15,16 +17,18 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order saveOrder(Order order) {
-        return null;
+        return orderRepository.save(order);
     }
 
     @Override
     public Order updateOrderStatus(int id, OrderStatus orderStatus) {
-        return null;
+        Optional<Order> order = findOrderById(id);
+        order.get().setOrderStatus(orderStatus);
+        return orderRepository.save(order.get());
     }
 
     @Override
-    public Order findOrderById(int id) {
-        return null;
+    public Optional<Order> findOrderById(int id) {
+        return orderRepository.findById(id);
     }
 }

@@ -1,5 +1,6 @@
 package com.codehub.spring.eshop.service.impl;
 
+import com.codehub.spring.eshop.domain.User;
 import com.codehub.spring.eshop.repository.CartRepository;
 import com.codehub.spring.eshop.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,22 +15,22 @@ public class CartServiceImpl implements CartService {
     CartRepository cartRepository;
 
     @Override
-    public void addItem(int productId, BigDecimal quantity) {
+    public void addItem(User user, Long productId, BigDecimal quantity) {
 
     }
 
     @Override
-    public void removeItem(int productId) {
+    public void removeItem(User user, Long productId) {
 
     }
 
     @Override
-    public BigDecimal increaseQuantity(int productId, BigDecimal quantity) {
+    public BigDecimal increaseQuantity(User user, Long productId, BigDecimal quantity) {
         return null;
     }
 
     @Override
-    public BigDecimal decreaseQuantity(int productId, BigDecimal quantity) {
+    public BigDecimal decreaseQuantity(User user, Long productId, BigDecimal quantity) {
         return null;
     }
 }
