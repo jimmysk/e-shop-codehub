@@ -24,9 +24,24 @@ public class ProductCategoryController {
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<ProductCategory> createProductCategory(@RequestBody ProductCategory productCategory) {
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(productService.saveCategory(productCategory));
+        if (productCategory.getId() != null) {
+            return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(productService.saveCategory(productCategory));
+        }
+    }
+
+    @PutMapping(consumes = "application/json", produces = "application/json")
+    public ResponseEntity<ProductCategory> updateProductCategory(@RequestBody ProductCategory productCategory) {
+        if (productCategory.getId() == null) {
+            return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).build();
+        } else {
+            return ResponseEntity
+                    .ok()
+                    .body(productService.saveCategory(productCategory));
+        }
     }
 
 

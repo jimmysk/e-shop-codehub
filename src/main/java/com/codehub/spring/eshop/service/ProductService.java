@@ -2,6 +2,7 @@ package com.codehub.spring.eshop.service;
 
 import com.codehub.spring.eshop.domain.Product;
 import com.codehub.spring.eshop.domain.ProductCategory;
+import com.codehub.spring.eshop.exception.EShopException;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -16,7 +17,7 @@ public interface ProductService {
 
     public Collection<ProductCategory> findAllCategories();
 
-    public Product saveProduct(Product product);
+    public Product saveProduct(Product product) throws EShopException;
 
     public void deleteProductById(Long id);
 

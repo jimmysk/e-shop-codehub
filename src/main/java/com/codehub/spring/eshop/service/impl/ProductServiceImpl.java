@@ -2,6 +2,8 @@ package com.codehub.spring.eshop.service.impl;
 
 import com.codehub.spring.eshop.domain.Product;
 import com.codehub.spring.eshop.domain.ProductCategory;
+import com.codehub.spring.eshop.exception.EShopException;
+import com.codehub.spring.eshop.exception.ProductCategoryNotFoundException;
 import com.codehub.spring.eshop.repository.ProductCategoryRepository;
 import com.codehub.spring.eshop.repository.ProductRepository;
 import com.codehub.spring.eshop.service.ProductService;
@@ -41,7 +43,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product saveProduct(Product product) {
+    public Product saveProduct(Product product) throws EShopException {
+        if (!findCategoryById(product.getProductCategory().getId()).isPresent()) {
+            throw new ProductCategoryNotFoundException();
+        }
         return productRepository.save(product);
     }
 
