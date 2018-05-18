@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -34,7 +36,12 @@ public class CartServiceImpl implements CartService {
                     .quantity(quantity)
                     .price(product.get().getPrice())
                     .tax(product.get().getTax())
+                    .dateAdded(new Date().toInstant())
+                    .size(size)
                     .build();
+
+            Optional<Cart> cartItem = cartRepository.findByUserIdAndProductId(userId, productId);
+            cartItem.ifPresent(cart1 -> cart.setCartId(cart1.getCartId()));
             cartRepository.save(cart);
         } else {
             throw new CartProductNotFoundException();
@@ -67,6 +74,10 @@ public class CartServiceImpl implements CartService {
         if (cartRepository.deleteAllByUserId(userId) < 1) {
             throw new CartNotFoundException();
         }
+    }
 
+    @Override
+    public Collection<Cart> findAll(Long userId) {
+        return cartRepository.findAllByUserId(userId);
     }
 }

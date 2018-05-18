@@ -35,7 +35,7 @@ public class CartController {
                 .status(HttpStatus.CREATED).build();
     }
 
-    @DeleteMapping(value = "{/product_id}", produces = "application/json")
+    @DeleteMapping(value = "/{product_id}", produces = "application/json")
     public ResponseEntity removeItem(@PathVariable("product_id") Long productId)
             throws EShopException {
 
@@ -44,7 +44,7 @@ public class CartController {
                 .status(HttpStatus.ACCEPTED).build();
     }
 
-    @PutMapping(value = "{/product_id}", produces = "application/json", params = {"quantity"})
+    @PutMapping(value = "/{product_id}", produces = "application/json", params = {"quantity"})
     public ResponseEntity updateQuantity(@PathVariable("product_id") Long productId,
                                          @RequestParam(value = "quantity") BigDecimal quantity)
             throws EShopException {
@@ -57,7 +57,7 @@ public class CartController {
                 .status(HttpStatus.ACCEPTED).build();
     }
 
-    @PutMapping(value = "{/product_id}", produces = "application/json", params = {"size"})
+    @PutMapping(value = "/{product_id}", produces = "application/json", params = {"size"})
     public ResponseEntity updateSize(@PathVariable("product_id") Long productId,
                                      @RequestParam(value = "size") Size size)
             throws EShopException {

@@ -5,14 +5,18 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.Optional;
 
 /**
  * Created by Dimitris on 16/5/2018.
  */
 
 @Repository
+@Transactional
 public interface CartRepository extends JpaRepository<Cart, Long> {
 
     public int removeCartByUserIdAndProductId(Long userId, Long productId);
@@ -24,4 +28,8 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     public int updateSize(@Param("userId") Long userId, @Param("productId") Long productId, @Param("size") String size);
 
     public int deleteAllByUserId(Long userId);
+
+    public Optional<Cart> findByUserIdAndProductId(Long userId, Long productId);
+
+    public Collection<Cart> findAllByUserId(Long userId);
 }

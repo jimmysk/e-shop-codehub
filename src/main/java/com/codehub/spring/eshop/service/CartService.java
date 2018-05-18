@@ -1,10 +1,12 @@
 package com.codehub.spring.eshop.service;
 
+import com.codehub.spring.eshop.domain.Cart;
 import com.codehub.spring.eshop.enums.Size;
 import com.codehub.spring.eshop.exception.CartProductNotFoundException;
 import com.codehub.spring.eshop.exception.EShopException;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 
 public interface CartService {
 
@@ -17,5 +19,7 @@ public interface CartService {
     public void updateSize(Long userId, Long productId, Size size) throws EShopException;
 
     public void dropCart(Long userId) throws EShopException;
+
+    public Collection<Cart> findAll(Long userId);
 
 }

@@ -1,8 +1,7 @@
 package com.codehub.spring.eshop.domain;
 
 import com.codehub.spring.eshop.enums.Size;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -14,8 +13,12 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "cart")
-@Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Data
 public class Cart {
 
     @Id
