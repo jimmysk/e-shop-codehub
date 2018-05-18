@@ -4,6 +4,7 @@ import com.codehub.spring.eshop.enums.Role;
 import lombok.Data;
 import lombok.Getter;
 import lombok.AccessLevel;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -28,11 +29,11 @@ public class User {
     @NotBlank(message = "Email cannot be empty")
     @Column(name = "email", unique = true, nullable = false)
     @Email(message = "Email should be valid")
+    @NaturalId
     private String email;
 
     @NotBlank(message = "Password is necessary field")
     @Column(name = "password", nullable = false)
-    @Getter(AccessLevel.PRIVATE)
     private String password;
 
     @Column(name = "first_name", nullable = false)

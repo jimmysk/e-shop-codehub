@@ -32,4 +32,9 @@ public class AccessToken {
 
     @Column(name = "expires_in", nullable = false)
     private Instant expiresIn;
+
+    public AccessToken(User user, UUID uuid) {
+    }
+
+
 }

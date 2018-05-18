@@ -2,6 +2,7 @@ package com.codehub.spring.eshop.controller;
 
 import com.codehub.spring.eshop.domain.AccessToken;
 import com.codehub.spring.eshop.domain.User;
+import com.codehub.spring.eshop.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +26,10 @@ public class UserController {
 
 
     @GetMapping(value = "/user/{userId}")
-    public ResponseEntity<User> getUserById(@PathVariable(name = "userId") String userId) {
+    public ResponseEntity<User> getUserById(@PathVariable(name = "userId") Long userId) {
         return ResponseEntity
                 .ok()
-                .body(userService.findById (userId));
+                .body(userService.findById(userId));
     }
 
     @GetMapping(value = "/user/{userEmail}")
@@ -47,14 +48,14 @@ public class UserController {
 
     @PostMapping(value = "user/new", consumes = "application/json", produces = "application/json")
     public ResponseEntity<User> createUser(@RequestBody User user) {
-        userService.save(user);
+        userService.register (user);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(userService.save(user));
+                .body(userService.register(user));
     }
 
     @PutMapping(value = "user/update" , consumes = "application/json", produces = "application/json")
-    public ResponseEntity<User> updateUser(@RequestBody User user) {
+    public ResponseEntity<User> updateUser(@RequestBody User user)throws UserNotFoundException {
         userService.update(user);
         return ResponseEntity
                 .ok()
@@ -62,14 +63,14 @@ public class UserController {
     }
 
     @PostMapping(value = "user/login")
-    public ResponseEntity<AccessToken> login(@RequestBody String username, String password) {
+    public ResponseEntity<AccessToken> login(String email,String password) throws UserNotFoundException {
         return ResponseEntity
                 .ok()
-                .body(userService.login(username,password));
+                .body(userService.login(email,password));
     }
 
     @PostMapping(value = "user/logout")
-    public ResponseEntity<String> logout(String token) {
+    public ResponseEntity<String> logout(AccessToken token) {
         userService.logout(token);
         return ResponseEntity
                 .ok()
