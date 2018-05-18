@@ -2,6 +2,8 @@ package com.codehub.spring.eshop.service.impl;
 
 import com.codehub.spring.eshop.domain.Cart;
 import com.codehub.spring.eshop.domain.Product;
+import com.codehub.spring.eshop.enums.Size;
+import com.codehub.spring.eshop.exception.CartNotFoundException;
 import com.codehub.spring.eshop.exception.CartProductNotFoundException;
 import com.codehub.spring.eshop.exception.EShopException;
 import com.codehub.spring.eshop.repository.CartRepository;
@@ -23,7 +25,7 @@ public class CartServiceImpl implements CartService {
     ProductRepository productRepository;
 
     @Override
-    public void addItem(Long userId, Long productId, BigDecimal quantity) throws CartProductNotFoundException {
+    public void addItem(Long userId, Long productId, BigDecimal quantity, Size size) throws CartProductNotFoundException {
         Optional<Product> product = productRepository.findById(productId);
         if (product.isPresent()) {
             Cart cart = Cart.builder()
@@ -47,22 +49,23 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void increaseQuantity(Long userId, Long productId, BigDecimal quantity) throws EShopException {
-        if (quantity == null) {
-            quantity = BigDecimal.ONE;
-        }
-        if (cartRepository.increaseProduct(userId, productId, quantity) < 1) {
+    public void updateQuantity(Long userId, Long productId, BigDecimal quantity) throws EShopException {
+        if (cartRepository.updateQuantity(userId, productId, quantity) < 1) {
             throw new CartProductNotFoundException();
         }
     }
 
     @Override
-    public void decreaseQuantity(Long userId, Long productId, BigDecimal quantity) throws EShopException {
-        if (quantity == null) {
-            quantity = BigDecimal.ONE;
-        }
-        if (cartRepository.decreaseProduct(userId, productId, quantity) < 1) {
+    public void updateSize(Long userId, Long productId, Size size) throws EShopException {
+        if (cartRepository.updateSize(userId, productId, size.name()) < 1) {
             throw new CartProductNotFoundException();
+        }
+    }
+
+    @Override
+    public void dropCart(Long userId) throws EShopException {
+        if (cartRepository.deleteAllByUserId(userId) < 1) {
+            throw new CartNotFoundException();
         }
 
     }
