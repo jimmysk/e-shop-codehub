@@ -1,17 +1,18 @@
 package com.codehub.spring.eshop.service;
 
-import com.codehub.spring.eshop.domain.User;
+import com.codehub.spring.eshop.exception.CartProductNotFoundException;
+import com.codehub.spring.eshop.exception.EShopException;
 
 import java.math.BigDecimal;
 
 public interface CartService {
 
-    public void addItem(User user, Long productId, BigDecimal quantity);
+    public void addItem(Long userId, Long productId, BigDecimal quantity) throws CartProductNotFoundException;
 
-    public void removeItem(User user, Long productId);
+    public void removeItem(Long userId, Long productId) throws EShopException;
 
-    public BigDecimal increaseQuantity(User user, Long productId, BigDecimal quantity);
+    public void increaseQuantity(Long userId, Long productId, BigDecimal quantity) throws EShopException;
 
-    public BigDecimal decreaseQuantity(User user, Long productId, BigDecimal quantity);
+    public void decreaseQuantity(Long userId, Long productId, BigDecimal quantity) throws EShopException;
 
 }

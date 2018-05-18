@@ -1,12 +1,12 @@
 package com.codehub.spring.eshop.domain;
 
 import com.codehub.spring.eshop.enums.Size;
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.Set;
 
 /**
  * Created by Dimitris on 14/5/2018.
@@ -15,6 +15,7 @@ import java.util.Set;
 @Entity
 @Table(name = "cart")
 @Data
+@Builder
 public class Cart {
 
     @Id
@@ -22,12 +23,11 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cartId;
 
-    @OneToOne(optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @Column(name = "user_id")
+    private Long userId;
 
-    @OneToMany
-    private Set<Product> products;
+    @Column(name = "product_id")
+    private Long productId;
 
     @Column(name = "price")
     private BigDecimal price;
@@ -43,4 +43,12 @@ public class Cart {
 
     @Column(name = "size")
     private Size size;
+
+//    @OneToOne(optional = false)
+//    @JoinColumn(name = "user_id", nullable = false)
+//    private User user;
+
+//    @OneToMany
+//    private Set<Product> products;
+
 }
