@@ -39,8 +39,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public AccessToken login( String email, String password) throws UserNotFoundException {
-        User user ;
-        user.findByEmail(email);
+        User user = userRepository.findByEmail(email);
         //Throws UserNotFound
         if (user.equals(null)) throw new UserNotFoundException("User not found");
         if (!user.getPassword().contentEquals(password)) {
@@ -67,7 +66,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByEmail(String email) {
-        return userRepository.findbyEmail(email);
+        return userRepository.findByEmail(email);
     }
 
     @Override

@@ -3,12 +3,11 @@ package com.codehub.spring.eshop.controller;
 import com.codehub.spring.eshop.domain.AccessToken;
 import com.codehub.spring.eshop.domain.User;
 import com.codehub.spring.eshop.exception.UserNotFoundException;
+import com.codehub.spring.eshop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import com.codehub.spring.eshop.service.UserService;
 
 import java.util.List;
 
@@ -29,7 +28,7 @@ public class UserController {
     public ResponseEntity<User> getUserById(@PathVariable(name = "userId") Long userId) {
         return ResponseEntity
                 .ok()
-                .body(userService.findById(userId));
+                .body(userService.findById(userId).get());
     }
 
     @GetMapping(value = "/user/{userEmail}")
@@ -59,7 +58,7 @@ public class UserController {
         userService.update(user);
         return ResponseEntity
                 .ok()
-                .body(userService.findById (user.getId().toString()));
+                .body(userService.findById(user.getId()).get());
     }
 
     @PostMapping(value = "user/login")
