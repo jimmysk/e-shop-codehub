@@ -1,15 +1,21 @@
 package com.codehub.spring.eshop.service;
 
+import com.codehub.spring.eshop.enums.Size;
+import com.codehub.spring.eshop.exception.CartProductNotFoundException;
+import com.codehub.spring.eshop.exception.EShopException;
+
 import java.math.BigDecimal;
 
 public interface CartService {
 
-    public void addItem(int productId, BigDecimal quantity);
+    public void addItem(Long userId, Long productId, BigDecimal quantity, Size size) throws CartProductNotFoundException;
 
-    public void removeItem(int productId);
+    public void removeItem(Long userId, Long productId) throws EShopException;
 
-    public BigDecimal increaseQuantity(int productId, BigDecimal quantity);
+    public void updateQuantity(Long userId, Long productId, BigDecimal quantity) throws EShopException;
 
-    public BigDecimal decreaseQuantity(int productId, BigDecimal quantity);
+    public void updateSize(Long userId, Long productId, Size size) throws EShopException;
+
+    public void dropCart(Long userId) throws EShopException;
 
 }
