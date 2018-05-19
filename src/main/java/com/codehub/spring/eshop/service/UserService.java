@@ -2,6 +2,7 @@ package com.codehub.spring.eshop.service;
 
 import com.codehub.spring.eshop.domain.AccessToken;
 import com.codehub.spring.eshop.domain.User;
+import com.codehub.spring.eshop.exception.EShopException;
 import com.codehub.spring.eshop.exception.UserNotFoundException;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public interface UserService {
 
     public void logout(AccessToken token);
 
-    public User verify(String accessToken);
+    public User verify(String accessToken) throws EShopException;
 
     public List<User> findAll();
 
