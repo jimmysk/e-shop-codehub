@@ -16,7 +16,7 @@ import java.util.Optional;
  */
 
 @RestController
-@RequestMapping(value = "/product")
+@RequestMapping(value = "/eshop/product")
 public class ProductController {
 
     @Autowired
@@ -41,7 +41,7 @@ public class ProductController {
                 .build());
     }
 
-    @GetMapping
+    @GetMapping(value = "/all")
     public ResponseEntity<Collection<Product>> findAllProducts() {
         return ResponseEntity
                 .ok()

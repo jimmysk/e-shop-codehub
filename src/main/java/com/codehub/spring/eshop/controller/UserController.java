@@ -62,8 +62,7 @@ public class UserController {
     }
 
     @PostMapping(value = "user/login")
-    public ResponseEntity<AccessToken> login(@RequestParam String email, @RequestParam String password)
-            throws UserNotFoundException {
+    public ResponseEntity<AccessToken> login(@RequestBody String email, @RequestBody String password) throws UserNotFoundException {
         return ResponseEntity
                 .ok()
                 .body(userService.login(email,password));
