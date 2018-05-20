@@ -19,7 +19,7 @@ import java.time.Instant;
 @Getter
 @Setter
 @Data
-public class Cart {
+public class CartItem {
 
     @Id
     @Column(name = "cart_id", nullable = false)

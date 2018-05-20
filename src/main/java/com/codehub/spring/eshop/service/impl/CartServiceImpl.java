@@ -1,6 +1,6 @@
 package com.codehub.spring.eshop.service.impl;
 
-import com.codehub.spring.eshop.domain.Cart;
+import com.codehub.spring.eshop.domain.CartItem;
 import com.codehub.spring.eshop.domain.Product;
 import com.codehub.spring.eshop.enums.Size;
 import com.codehub.spring.eshop.exception.CartNotFoundException;
@@ -30,7 +30,7 @@ public class CartServiceImpl implements CartService {
     public void addItem(Long userId, Long productId, BigDecimal quantity, Size size) throws CartProductNotFoundException {
         Optional<Product> product = productRepository.findById(productId);
         if (product.isPresent()) {
-            Cart cart = Cart.builder()
+            CartItem cart = CartItem.builder()
                     .userId(userId)
                     .productId(productId)
                     .quantity(quantity)
@@ -40,8 +40,8 @@ public class CartServiceImpl implements CartService {
                     .size(size)
                     .build();
 
-            Optional<Cart> cartItem = cartRepository.findByUserIdAndProductId(userId, productId);
-            cartItem.ifPresent(cart1 -> cart.setCartId(cart1.getCartId()));
+            Optional<CartItem> cartItem = cartRepository.findByUserIdAndProductId(userId, productId);
+            cartItem.ifPresent(cartItem1 -> cart.setCartId(cartItem1.getCartId()));
             cartRepository.save(cart);
         } else {
             throw new CartProductNotFoundException();
@@ -50,7 +50,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void removeItem(Long userId, Long productId) throws EShopException {
-        if (cartRepository.removeCartByUserIdAndProductId(userId, productId) < 1) {
+        if (cartRepository.removeCartItemByUserIdAndProductId(userId, productId) < 1) {
             throw new CartProductNotFoundException();
         }
     }
@@ -77,7 +77,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Collection<Cart> findAll(Long userId) {
+    public Collection<CartItem> findAll(Long userId) {
         return cartRepository.findAllByUserId(userId);
     }
 }

@@ -1,6 +1,6 @@
 package com.codehub.spring.eshop.service;
 
-import com.codehub.spring.eshop.domain.Cart;
+import com.codehub.spring.eshop.domain.CartItem;
 import com.codehub.spring.eshop.enums.Size;
 import com.codehub.spring.eshop.exception.CartProductNotFoundException;
 import com.codehub.spring.eshop.exception.EShopException;
@@ -20,6 +20,6 @@ public interface CartService {
 
     public void dropCart(Long userId) throws EShopException;
 
-    public Collection<Cart> findAll(Long userId);
+    public Collection<CartItem> findAll(Long userId);
 
 }

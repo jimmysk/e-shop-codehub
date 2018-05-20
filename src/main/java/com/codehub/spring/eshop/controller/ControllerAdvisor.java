@@ -18,13 +18,13 @@ public class ControllerAdvisor {
 
     @ExceptionHandler(CartProductNotFoundException.class)
     public ResponseEntity cartProductNotFoundException(HttpServletRequest request, HttpServletResponse response, CartProductNotFoundException e) {
-        log.error("Cart Not Found", e);
+        log.error("CartItem Not Found", e);
         return ResponseEntity.notFound().build();
     }
 
     @ExceptionHandler(CartNotFoundException.class)
     public ResponseEntity cartNotFoundException(HttpServletRequest request, HttpServletResponse response, CartNotFoundException e) {
-        log.error("Cart Product Not Found", e);
+        log.error("CartItem Product Not Found", e);
         return ResponseEntity.notFound().build();
     }
 
@@ -36,7 +36,7 @@ public class ControllerAdvisor {
 
     @ExceptionHandler(ProductCategoryNotFoundException.class)
     public ResponseEntity invalidQuantityException(HttpServletRequest request, HttpServletResponse response, ProductCategoryNotFoundException e) {
-        log.error("Cart Product Not Found", e);
+        log.error("CartItem Product Not Found", e);
         return ResponseEntity.notFound().build();
     }
 }
