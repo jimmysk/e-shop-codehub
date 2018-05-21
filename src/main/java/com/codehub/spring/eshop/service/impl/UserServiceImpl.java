@@ -78,13 +78,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void logout(String accessToken) {
-        accessTokenRepository.deleteAccessTokenByAccessToken(accessToken);
+        accessTokenRepository.deleteAccessTokenByAccessToken(UUID.fromString(accessToken));
     }
 
 
     @Override
     public User verify(String accessToken) throws EShopException {
-        AccessToken token =  accessTokenRepository.findByAccessToken(accessToken);
+        AccessToken token = accessTokenRepository.findByAccessToken(UUID.fromString(accessToken));
         if (token == null) {
             throw new TokenNotFoundException();
         }

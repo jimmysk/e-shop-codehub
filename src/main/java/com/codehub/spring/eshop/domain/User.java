@@ -33,7 +33,6 @@ public class User {
 
     @NotBlank(message = "Password is necessary field")
     @Column(name = "password", nullable = false)
-    @JsonIgnore
     private String password;
 
     @Column(name = "first_name", nullable = false)

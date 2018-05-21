@@ -3,6 +3,7 @@ package com.codehub.spring.eshop.controller;
 import com.codehub.spring.eshop.DTO.UserDto;
 import com.codehub.spring.eshop.domain.AccessToken;
 import com.codehub.spring.eshop.domain.User;
+import com.codehub.spring.eshop.enums.Role;
 import com.codehub.spring.eshop.exception.EShopException;
 import com.codehub.spring.eshop.exception.UserNotAuthException;
 import com.codehub.spring.eshop.service.UserService;
@@ -64,6 +65,7 @@ public class UserController extends BaseController {
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<User> createUser(@RequestBody User user) throws EShopException {
+        user.setRole(Role.CUSTOMER);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(userService.register(user));
@@ -93,7 +95,7 @@ public class UserController extends BaseController {
                 .body(userService.login(email, password));
     }
 
-    @PostMapping(value = "/logout")
+    @DeleteMapping(value = "/logout")
     public ResponseEntity<String> logout(@RequestHeader("Authorization") String accessToken)
             throws EShopException {
         verifyToken(accessToken);
