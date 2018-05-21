@@ -6,7 +6,7 @@ import com.codehub.spring.eshop.enums.Size;
 import com.codehub.spring.eshop.exception.CartNotFoundException;
 import com.codehub.spring.eshop.exception.CartProductNotFoundException;
 import com.codehub.spring.eshop.exception.EShopException;
-import com.codehub.spring.eshop.repository.CartRepository;
+import com.codehub.spring.eshop.repository.CartItemRepository;
 import com.codehub.spring.eshop.repository.ProductRepository;
 import com.codehub.spring.eshop.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import java.util.Optional;
 public class CartServiceImpl implements CartService {
 
     @Autowired
-    CartRepository cartRepository;
+    CartItemRepository cartItemRepository;
 
     @Autowired
     ProductRepository productRepository;
@@ -40,9 +40,9 @@ public class CartServiceImpl implements CartService {
                     .size(size)
                     .build();
 
-            Optional<CartItem> cartItem = cartRepository.findByUserIdAndProductId(userId, productId);
+            Optional<CartItem> cartItem = cartItemRepository.findByUserIdAndProductId(userId, productId);
             cartItem.ifPresent(cartItem1 -> cart.setCartId(cartItem1.getCartId()));
-            cartRepository.save(cart);
+            cartItemRepository.save(cart);
         } else {
             throw new CartProductNotFoundException();
         }
@@ -50,34 +50,42 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void removeItem(Long userId, Long productId) throws EShopException {
-        if (cartRepository.removeCartItemByUserIdAndProductId(userId, productId) < 1) {
+        if (cartItemRepository.removeCartItemByUserIdAndProductId(userId, productId) < 1) {
             throw new CartProductNotFoundException();
         }
     }
 
     @Override
     public void updateQuantity(Long userId, Long productId, BigDecimal quantity) throws EShopException {
-        if (cartRepository.updateQuantity(userId, productId, quantity) < 1) {
+        Optional<CartItem> cartItem = cartItemRepository.findByUserIdAndProductId(userId, productId);
+        if (cartItem.isPresent()) {
+            cartItem.get().setQuantity(quantity);
+            cartItemRepository.save(cartItem.get());
+        } else {
             throw new CartProductNotFoundException();
         }
     }
 
     @Override
     public void updateSize(Long userId, Long productId, Size size) throws EShopException {
-        if (cartRepository.updateSize(userId, productId, size.name()) < 1) {
+        Optional<CartItem> cartItem = cartItemRepository.findByUserIdAndProductId(userId, productId);
+        if (cartItem.isPresent()) {
+            cartItem.get().setSize(size);
+            cartItemRepository.save(cartItem.get());
+        } else {
             throw new CartProductNotFoundException();
         }
     }
 
     @Override
     public void dropCart(Long userId) throws EShopException {
-        if (cartRepository.deleteAllByUserId(userId) < 1) {
+        if (cartItemRepository.deleteAllByUserId(userId) < 1) {
             throw new CartNotFoundException();
         }
     }
 
     @Override
     public Collection<CartItem> findAll(Long userId) {
-        return cartRepository.findAllByUserId(userId);
+        return cartItemRepository.findAllByUserId(userId);
     }
 }
