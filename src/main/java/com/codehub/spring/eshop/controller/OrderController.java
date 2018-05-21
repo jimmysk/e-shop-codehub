@@ -50,7 +50,7 @@ public class OrderController {
 
 
     @PutMapping(value = "updatestatus/{order_id}")
-    public ResponseEntity<Order> updateOrderStatus(@PathVariable(value = "order_id") Integer orderId,
+    public ResponseEntity<Order> updateOrderStatus(@RequestParam(value = "order_id") Integer orderId,
                                                    @RequestParam(value = "order_status") OrderStatus orderStatus) {
         orderService.updateOrderStatus(orderId, orderStatus);
         return ResponseEntity

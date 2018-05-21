@@ -47,7 +47,8 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
-    @OneToMany(mappedBy = "id")
+    @OneToMany(mappedBy = "order")
+    @JsonIgnore
     private Set<OrderItem> orderItems;
 
 }

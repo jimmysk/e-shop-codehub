@@ -2,8 +2,10 @@ package com.codehub.spring.eshop.domain;
 
 import com.codehub.spring.eshop.enums.Size;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -16,6 +18,8 @@ import java.time.Instant;
 @Entity
 @Table(name = "order_items")
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 public class OrderItem {
 
