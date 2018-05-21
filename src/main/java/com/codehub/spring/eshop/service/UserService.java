@@ -3,19 +3,17 @@ package com.codehub.spring.eshop.service;
 import com.codehub.spring.eshop.domain.AccessToken;
 import com.codehub.spring.eshop.domain.User;
 import com.codehub.spring.eshop.exception.EShopException;
-import com.codehub.spring.eshop.exception.EmailExistsException;
-import com.codehub.spring.eshop.exception.UserNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
 
-    public User register(User user) throws EmailExistsException;
+    public User register(User user) throws EShopException;
 
-    public AccessToken login( String email, String password)throws UserNotFoundException;
+    public AccessToken login(String email, String password) throws EShopException;
 
-    public User update(User user) throws UserNotFoundException;
+    public User update(User user) throws EShopException;
 
     public void logout(String accessToken);
 
