@@ -3,10 +3,7 @@ package com.codehub.spring.eshop.service.impl;
 import com.codehub.spring.eshop.domain.AccessToken;
 import com.codehub.spring.eshop.domain.User;
 import com.codehub.spring.eshop.enums.Role;
-import com.codehub.spring.eshop.exception.EmailExistsException;
-import com.codehub.spring.eshop.exception.UserNotAuthException;
-import com.codehub.spring.eshop.exception.UserNotFoundException;
-import com.codehub.spring.eshop.exception.TokenAccessExpired;
+import com.codehub.spring.eshop.exception.*;
 import com.codehub.spring.eshop.repository.AccessTokenRepository;
 import com.codehub.spring.eshop.repository.UserRepository;
 import com.codehub.spring.eshop.service.UserService;
@@ -57,6 +54,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public AccessToken login( String email, String password) throws UserNotFoundException {
         User user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new UserNotFoundException("Password mismatch");
+        }
         try {
             authenticate(user, password);
         } catch (UserNotAuthException e) {
@@ -83,10 +83,13 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public User verify(String accessToken) throws TokenAccessExpired {
+    public User verify(String accessToken) throws EShopException {
         AccessToken token =  accessTokenRepository.findByAccessToken(accessToken);
+        if (token == null) {
+            throw new TokenNotFoundException();
+        }
         if (token.getExpiresIn().compareTo(new Date().toInstant())<0) {
-            throw new TokenAccessExpired();
+            throw new TokenAccessExpiredException();
         }
         return token.getUser();
     }
