@@ -1,8 +1,9 @@
 package com.codehub.spring.eshop.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -14,8 +15,10 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "access_tokens")
-@Data
 @Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class AccessToken {
 
     @Id
@@ -35,5 +38,4 @@ public class AccessToken {
 
     @Column(name = "expires_in", nullable = false)
     private Instant expiresIn;
-
 }

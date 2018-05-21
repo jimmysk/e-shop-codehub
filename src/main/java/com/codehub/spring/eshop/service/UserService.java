@@ -17,7 +17,7 @@ public interface UserService {
 
     public User update(User user) throws UserNotFoundException;
 
-    public void logout(AccessToken token);
+    public void logout(String accessToken);
 
     public User verify(String accessToken) throws EShopException;
 

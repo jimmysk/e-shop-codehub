@@ -3,8 +3,6 @@ package com.codehub.spring.eshop.domain;
 import com.codehub.spring.eshop.enums.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import lombok.Getter;
-import lombok.AccessLevel;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
