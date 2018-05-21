@@ -1,6 +1,5 @@
 package com.codehub.spring.eshop;
 
-import com.codehub.spring.eshop.request.interceptor.AuthorizationInterceptor;
 import com.codehub.spring.eshop.request.interceptor.LoggingInterceptor;
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +23,6 @@ public class EShopApplication implements WebMvcConfigurer {
     DataSource dataSource;
 
     @Bean
-    public HandlerInterceptorAdapter authorizationInterceptor() {
-        return new AuthorizationInterceptor();
-    }
-
-    @Bean
     public HandlerInterceptorAdapter loggingInterceptor() {
         return new LoggingInterceptor();
     }
@@ -36,7 +30,6 @@ public class EShopApplication implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry interceptorRegistry) {
         interceptorRegistry.addInterceptor(loggingInterceptor());
-        interceptorRegistry.addInterceptor(authorizationInterceptor());
     }
 
     @Bean(initMethod = "migrate")
