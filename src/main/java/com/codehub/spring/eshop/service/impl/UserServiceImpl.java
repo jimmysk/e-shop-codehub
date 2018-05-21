@@ -77,8 +77,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void logout(AccessToken token) {
-        accessTokenRepository.delete(token);
+    public void logout(String accessToken) {
+        accessTokenRepository.deleteAccessTokenByAccessToken(accessToken);
     }
 
 
