@@ -1,6 +1,8 @@
 package com.codehub.spring.eshop.domain;
 
 import com.codehub.spring.eshop.enums.Size;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -13,6 +15,7 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "order_items")
+@Builder
 @Data
 public class OrderItem {
 
@@ -23,6 +26,7 @@ public class OrderItem {
 
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
+    @JsonIgnore
     private Order order;
 
     @OneToOne(optional = false)

@@ -1,6 +1,7 @@
 package com.codehub.spring.eshop.domain;
 
 import com.codehub.spring.eshop.enums.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.Getter;
 import lombok.AccessLevel;
@@ -64,5 +65,6 @@ public class User {
     private Role role;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private Set<Order> orders;
 }

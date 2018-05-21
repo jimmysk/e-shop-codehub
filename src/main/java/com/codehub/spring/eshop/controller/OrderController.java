@@ -1,13 +1,18 @@
 package com.codehub.spring.eshop.controller;
 
+import com.codehub.spring.eshop.domain.CartItem;
 import com.codehub.spring.eshop.domain.Order;
 import com.codehub.spring.eshop.enums.OrderStatus;
+import com.codehub.spring.eshop.service.CartService;
 import com.codehub.spring.eshop.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -15,23 +20,38 @@ import java.util.Optional;
  */
 
 @RestController
-@RequestMapping(value = "/order")
+@RequestMapping(value = "e-shop/order")
 public class OrderController {
 
     @Autowired
     private OrderService orderService;
-    
 
-    @PostMapping(consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
+    @Autowired
+    private CartService cartService;
+
+
+//    @PostMapping(consumes = "application/json", produces = "application/json")
+//    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
+//        return ResponseEntity
+//                .status(HttpStatus.CREATED)
+//                .body(orderService.saveOrder(order));
+//    }
+
+    @PostMapping(value = "create")
+    public ResponseEntity<Order> createOrder(@RequestParam("userId") Long userId) {
+
+        List<CartItem> cartItems = new ArrayList<>(cartService.findAll(userId));
+
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(orderService.saveOrder(order));
+                .body(orderService.checkout(cartItems));
     }
 
 
-    @PutMapping(value = "/updatestatus", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Order> updateOrderStatus(@RequestBody Integer orderId, OrderStatus orderStatus) {
+
+    @PutMapping(value = "updatestatus/{order_id}")
+    public ResponseEntity<Order> updateOrderStatus(@PathVariable(value = "order_id") Integer orderId,
+                                                   @RequestParam(value = "order_status") OrderStatus orderStatus) {
         orderService.updateOrderStatus(orderId, orderStatus);
         return ResponseEntity
                 .ok()

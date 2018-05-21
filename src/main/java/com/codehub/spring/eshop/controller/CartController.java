@@ -17,7 +17,7 @@ import java.math.BigDecimal;
  */
 
 @RestController
-@RequestMapping(value = "/cart")
+@RequestMapping(value = "e-shop/cart")
 public class CartController {
 
     @Autowired

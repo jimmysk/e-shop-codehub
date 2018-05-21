@@ -1,7 +1,11 @@
 package com.codehub.spring.eshop.domain;
 
 import com.codehub.spring.eshop.enums.OrderStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -14,6 +18,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "orders")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 public class Order {
 
@@ -24,6 +31,7 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
     private User user;
 
     @Column(name = "order_date")
@@ -39,7 +47,7 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "id")
     private Set<OrderItem> orderItems;
 
 }

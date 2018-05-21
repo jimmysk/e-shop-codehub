@@ -15,7 +15,7 @@ import java.util.Optional;
  */
 
 @RestController
-@RequestMapping(value = "/product/category")
+@RequestMapping(value = "e-shop/product/category")
 public class ProductCategoryController {
 
     @Autowired
@@ -55,7 +55,7 @@ public class ProductCategoryController {
                 .build());
     }
 
-    @GetMapping
+    @GetMapping(value = "all")
     public ResponseEntity<Collection<ProductCategory>> findAllCategories() {
         return ResponseEntity
                 .ok()
