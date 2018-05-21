@@ -1,7 +1,9 @@
 package com.codehub.spring.eshop.controller;
 
+import com.codehub.spring.eshop.DTO.UserDto;
 import com.codehub.spring.eshop.domain.AccessToken;
 import com.codehub.spring.eshop.domain.User;
+import com.codehub.spring.eshop.exception.EmailExistsException;
 import com.codehub.spring.eshop.exception.UserNotFoundException;
 import com.codehub.spring.eshop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +48,7 @@ public class UserController {
     }
 
     @PostMapping(value = "user/new", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        userService.register (user);
+    public ResponseEntity<User> createUser(@RequestBody User user) throws EmailExistsException {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(userService.register(user));
@@ -62,7 +63,10 @@ public class UserController {
     }
 
     @PostMapping(value = "user/login")
-    public ResponseEntity<AccessToken> login(@RequestBody String email, @RequestBody String password) throws UserNotFoundException {
+    public ResponseEntity<AccessToken> login(@RequestBody UserDto userDto) throws UserNotFoundException {
+        String email = userDto.getEmail();
+        String password = userDto.getPassword();
+
         return ResponseEntity
                 .ok()
                 .body(userService.login(email,password));
