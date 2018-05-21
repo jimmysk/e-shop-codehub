@@ -1,0 +1,74 @@
+package com.codehub.spring.eshop.controller;
+
+import com.codehub.spring.eshop.domain.User;
+import com.codehub.spring.eshop.enums.Size;
+import com.codehub.spring.eshop.exception.EShopException;
+import com.codehub.spring.eshop.exception.InvalidQuantityException;
+import com.codehub.spring.eshop.service.CartService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
+
+/**
+ * Created by Dimitris on 17/5/2018.
+ */
+
+@RestController
+@RequestMapping(value = "e-shop/cart")
+public class CartController extends BaseController {
+
+    @Autowired
+    private CartService cartService;
+
+
+    @PostMapping(produces = "application/json")
+    public ResponseEntity addItem(@RequestParam("product_id") Long productId,
+                                  @RequestParam("quantity") BigDecimal quantity,
+                                  @RequestParam("size") Size size,
+                                  @RequestHeader("Authorization") String accessToken)
+            throws EShopException {
+        User user = verifyToken(accessToken);
+        cartService.addItem(user.getId(), productId, quantity, size);
+        return ResponseEntity
+                .status(HttpStatus.CREATED).build();
+    }
+
+    @DeleteMapping(value = "/{product_id}", produces = "application/json")
+    public ResponseEntity removeItem(@PathVariable("product_id") Long productId,
+                                     @RequestHeader("Authorization") String accessToken)
+            throws EShopException {
+        User user = verifyToken(accessToken);
+        cartService.removeItem(user.getId(), productId);
+        return ResponseEntity
+                .status(HttpStatus.ACCEPTED).build();
+    }
+
+    @PutMapping(value = "/{product_id}", produces = "application/json", params = {"quantity"})
+    public ResponseEntity updateQuantity(@PathVariable("product_id") Long productId,
+                                         @RequestParam(value = "quantity") BigDecimal quantity,
+                                         @RequestHeader("Authorization") String accessToken)
+            throws EShopException {
+        User user = verifyToken(accessToken);
+        if (quantity.compareTo(BigDecimal.ZERO) != 1) {
+            throw new InvalidQuantityException();
+        }
+        cartService.updateQuantity(user.getId(), productId, quantity);
+        return ResponseEntity
+                .status(HttpStatus.ACCEPTED).build();
+    }
+
+    @PutMapping(value = "/{product_id}", produces = "application/json", params = {"size"})
+    public ResponseEntity updateSize(@PathVariable("product_id") Long productId,
+                                     @RequestParam(value = "size") Size size,
+                                     @RequestHeader("Authorization") String accessToken)
+            throws EShopException {
+        User user = verifyToken(accessToken);
+        cartService.updateSize(user.getId(), productId, size);
+        return ResponseEntity
+                .status(HttpStatus.ACCEPTED).build();
+    }
+
+}

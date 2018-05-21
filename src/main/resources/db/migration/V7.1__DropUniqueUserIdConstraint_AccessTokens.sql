@@ -1,0 +1,1 @@
+ALTER TABLE access_tokens DROP CONSTRAINT uk_4d9bw948jtas40j53ui2nj2ff
