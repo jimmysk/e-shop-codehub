@@ -54,6 +54,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public AccessToken login( String email, String password) throws UserNotFoundException {
         User user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new UserNotFoundException("Password mismatch");
+        }
         try {
             authenticate(user, password);
         } catch (UserNotAuthException e) {
