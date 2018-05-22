@@ -21,8 +21,8 @@ public interface UserService {
 
     public List<User> findAll();
 
-    public User findByEmail(String email);
+    public User findByEmail(String email) throws EShopException;
 
-    public Optional<User> findById(Long id);
+    public Optional<User> findById(Long id) throws EShopException;
 
 }

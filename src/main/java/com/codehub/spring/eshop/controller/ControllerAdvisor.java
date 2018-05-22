@@ -61,4 +61,10 @@ public class ControllerAdvisor {
         log.error("User not found", e);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
+
+    @ExceptionHandler(OrderNotFoundException.class)
+    public ResponseEntity orderNotFoundException(HttpServletRequest request, HttpServletResponse response, OrderNotFoundException e) {
+        log.error("Order/orders not found", e);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
 }
