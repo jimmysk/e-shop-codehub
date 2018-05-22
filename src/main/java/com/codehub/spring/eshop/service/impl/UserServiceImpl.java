@@ -43,30 +43,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User update(User user) throws UserNotFoundException {
+    public User update(User user) throws EShopException {
         if (!userRepository.existsById(user.getId())) {
             throw new UserNotFoundException("User not found");
         }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
 
     @Override
-    public AccessToken login( String email, String password) throws UserNotFoundException {
+    public AccessToken login(String email, String password) throws EShopException {
         User user = userRepository.findByEmail(email);
         if (user == null) {
             throw new UserNotFoundException("Password mismatch");
         }
-        try {
-            authenticate(user, password);
-        } catch (UserNotAuthException e) {
-            e.printStackTrace();
-        }
-        //Throws UserNotFound
-        if (user== null) throw new UserNotFoundException("User not found");
-        if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new UserNotFoundException("Password mismatch");
-        }
+        authenticate(user, password);
 
         return accessTokenRepository.save( AccessToken.builder()
                 .user(user)
@@ -100,13 +92,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public User findByEmail(String email) throws EShopException {
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new UserNotFoundException("No user found with this email");
+        }
+        return user;
     }
 
     @Override
-    public Optional<User> findById(Long id) {
-        return userRepository.findById(id);
+    public Optional<User> findById(Long id) throws EShopException {
+        Optional<User> user = userRepository.findById(id);
+        if (!user.isPresent()) {
+            throw new UserNotFoundException("No user found with this Id");
+        }
+        return user;
     }
 
 

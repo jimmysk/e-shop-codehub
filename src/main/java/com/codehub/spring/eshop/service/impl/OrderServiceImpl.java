@@ -3,8 +3,10 @@ package com.codehub.spring.eshop.service.impl;
 import com.codehub.spring.eshop.domain.CartItem;
 import com.codehub.spring.eshop.domain.Order;
 import com.codehub.spring.eshop.domain.OrderItem;
+import com.codehub.spring.eshop.domain.User;
 import com.codehub.spring.eshop.enums.OrderStatus;
 import com.codehub.spring.eshop.exception.EShopException;
+import com.codehub.spring.eshop.exception.OrderNotFoundException;
 import com.codehub.spring.eshop.repository.OrderItemRepository;
 import com.codehub.spring.eshop.repository.OrderRepository;
 import com.codehub.spring.eshop.repository.ProductRepository;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -44,18 +47,28 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order updateOrderStatus(int id, OrderStatus orderStatus) {
-        Optional<Order> order = findOrderById(id);
+        Optional<Order> order = null;
+        try {
+            order = findOrderById(id);
+        } catch (EShopException e) {
+            e.printStackTrace();
+        }
         order.get().setOrderStatus(orderStatus);
         return orderRepository.save(order.get());
     }
 
     @Override
-    public Optional<Order> findOrderById(int id) {
-        return orderRepository.findById(id);
+    public Optional<Order> findOrderById(int id) throws EShopException {
+        Optional<Order> order = orderRepository.findById(id);
+
+        if (!order.isPresent()) {
+            throw new OrderNotFoundException();
+        }
+        return order;
     }
 
     @Override
-    public Order checkout(List<CartItem> cartItems) {
+    public Order checkout(List<CartItem> cartItems) throws EShopException {
 
         Order order = Order.builder()
                 .user(userService.findById(cartItems.get(1).getUserId()).get())
@@ -91,6 +104,15 @@ public class OrderServiceImpl implements OrderService {
         }
 
         return order1;
+    }
+
+    @Override
+    public Collection<Order> findAllOrdersByUser(User user) throws EShopException {
+        Collection<Order> orders = orderRepository.findAllByUser(user);
+        if (orders.isEmpty()) {
+            throw new OrderNotFoundException();
+        }
+        return orders;
     }
 
     //Calculate Amount of Order by CartList
