@@ -63,5 +63,12 @@ public class ProductController {
                 .body(productService.findProductsByCategory(categoryId));
     }
 
+    @GetMapping(params = "keyword")
+    public ResponseEntity<Collection<Product>> findProductsByKeyword(@RequestParam(name = "keyword") String keyword) {
+        return ResponseEntity
+                .ok()
+                .body(productService.findProductsByKeyword(keyword));
+    }
+
 
 }
