@@ -1,5 +1,6 @@
 package com.codehub.spring.eshop.domain;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,6 +25,7 @@ public class AccessToken {
     @Id
     @Column(name = "access_token_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty(hidden = true)
     private Long id;
 
     @OneToOne(optional = false)

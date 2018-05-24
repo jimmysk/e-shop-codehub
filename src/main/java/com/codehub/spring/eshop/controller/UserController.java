@@ -7,6 +7,8 @@ import com.codehub.spring.eshop.enums.Role;
 import com.codehub.spring.eshop.exception.EShopException;
 import com.codehub.spring.eshop.exception.UserNotAuthException;
 import com.codehub.spring.eshop.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +22,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/e-shop/user")
+@Api(value = "User", description = "Handles the user operations", tags = "User")
 public class UserController extends BaseController {
 
     @Autowired
     private UserService userService;
 
-
-    @GetMapping
+    @ApiOperation(value = "Default request for authenticated user. Requires Access Token ")
+    @GetMapping(produces = "application/json")
     public ResponseEntity<User> getUserById(@RequestHeader("Authorization") String accessToken)
             throws EShopException {
         return ResponseEntity
@@ -34,7 +37,7 @@ public class UserController extends BaseController {
                 .body(verifyToken(accessToken));
     }
 
-    @GetMapping(value = "/{userId}")
+    @GetMapping(value = "/{userId}" , produces = "application/json")
     public ResponseEntity<User> getUserById(@PathVariable(name = "userId") Long userId,
                                             @RequestHeader("Authorization") String accessToken)
             throws EShopException {
@@ -44,7 +47,7 @@ public class UserController extends BaseController {
                 .body(userService.findById(userId).get());
     }
 
-    @GetMapping(value = "/email/{userEmail}")
+    @GetMapping(value = "/email/{userEmail}" , produces = "application/json")
     public ResponseEntity<User> getUserByEmail(@PathVariable(name = "userEmail") String userEmail,
                                                @RequestHeader("Authorization") String accessToken)
             throws EShopException {
@@ -54,7 +57,7 @@ public class UserController extends BaseController {
                 .body(userService.findByEmail(userEmail));
     }
 
-    @GetMapping(value = "/list")
+    @GetMapping(value = "/list" , produces = "application/json")
     public ResponseEntity<List<User>> getAllUsers(@RequestHeader("Authorization") String accessToken)
             throws EShopException {
         isAdminOrFail(verifyToken(accessToken));

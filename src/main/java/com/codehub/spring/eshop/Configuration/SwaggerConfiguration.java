@@ -25,9 +25,9 @@ public class SwaggerConfiguration {
         return new Docket(DocumentationType.SWAGGER_2)
                 .useDefaultResponseMessages(false)
                 .select()
-                //.apis(RequestHandlerSelectors.any())
+                
                 .apis(RequestHandlerSelectors.basePackage("com.codehub.spring.eshop.controller"))
-                //.paths(Predicates.not(PathSelectors.regex("/error")))
+
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(info());
