@@ -20,6 +20,12 @@ public class ControllerAdvisor {
         return ResponseEntity.notFound().build();
     }
 
+    @ExceptionHandler(ProductAlreadyAddedException.class)
+    public ResponseEntity productAlreadyAddedException(HttpServletRequest request, HttpServletResponse response, ProductAlreadyAddedException e) {
+        log.error("Product Already Added", e);
+        return ResponseEntity.badRequest().build();
+    }
+
     @ExceptionHandler(CartNotFoundException.class)
     public ResponseEntity cartNotFoundException(HttpServletRequest request, HttpServletResponse response, CartNotFoundException e) {
         log.error("CartItem Product Not Found", e);

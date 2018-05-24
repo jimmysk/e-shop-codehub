@@ -28,6 +28,7 @@ public class CartController extends BaseController {
     @PostMapping(produces = "application/json")
     @ApiOperation(value = "Add Item to Cart", notes = "Call this endpoint to add product to a user's cart")
     @ApiResponses({
+            @ApiResponse(code = 400, message = "Bad Request"),
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Internal Server Error")
@@ -61,7 +62,7 @@ public class CartController extends BaseController {
         cartService.removeItem(user.getId(), productId);
     }
 
-    @PutMapping(value = "/{product_id}/quantity/{quantity}", produces = "application/json", params = {"quantity"})
+    @PutMapping(value = "/{product_id}/quantity", produces = "application/json", params = {"quantity"})
     @ApiOperation(value = "Update Quantity", notes = "Call this endpoint to update the quantity of an item in a user's cart")
     @ApiResponses({
             @ApiResponse(code = 401, message = "Unauthorized"),
@@ -70,7 +71,7 @@ public class CartController extends BaseController {
     })
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateQuantity(@PathVariable("product_id") Long productId,
-                               @PathVariable(value = "quantity") BigDecimal quantity,
+                               @RequestParam(value = "quantity") BigDecimal quantity,
                                @ApiParam(name = "Authorization", value = "Authorization",
                                        defaultValue = "Bearer YOUR_ACCESS_TOKEN_HERE")
                                @RequestHeader("Authorization") String accessToken)
@@ -82,7 +83,7 @@ public class CartController extends BaseController {
         cartService.updateQuantity(user.getId(), productId, quantity);
     }
 
-    @PutMapping(value = "/{product_id}/size/{size}", produces = "application/json", params = {"size"})
+    @PutMapping(value = "/{product_id}/size", produces = "application/json", params = {"size"})
     @ApiOperation(value = "Update Size", notes = "Call this endpoint to update the size of an item in a user's cart")
     @ApiResponses({
             @ApiResponse(code = 401, message = "Unauthorized"),
@@ -91,7 +92,7 @@ public class CartController extends BaseController {
     })
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateSize(@PathVariable("product_id") Long productId,
-                           @PathVariable(value = "size") Size size,
+                           @RequestParam(value = "size") Size size,
                            @ApiParam(name = "Authorization", value = "Authorization",
                                    defaultValue = "Bearer YOUR_ACCESS_TOKEN_HERE")
                            @RequestHeader("Authorization") String accessToken)
