@@ -16,7 +16,7 @@ import java.util.Optional;
  */
 
 @RestController
-@RequestMapping(value = "eshop/product")
+@RequestMapping(value = "e-shop/product")
 public class ProductController {
 
     @Autowired
