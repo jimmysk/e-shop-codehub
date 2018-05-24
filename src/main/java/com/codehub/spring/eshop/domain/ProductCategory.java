@@ -1,5 +1,6 @@
 package com.codehub.spring.eshop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -25,6 +26,7 @@ public class ProductCategory {
     @Column(name = "other_category_info")
     private String otherCategoryInfo;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "productCategory")
     private Set<Product> products;
 }
