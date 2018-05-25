@@ -1,7 +1,10 @@
 package com.codehub.spring.eshop.domain;
 
 import com.codehub.spring.eshop.enums.MetricUnit;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -18,6 +21,8 @@ public class Product {
     @Id
     @Column(name = "product_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty(hidden = true)
+    @Setter(AccessLevel.NONE)
     private Long id;
 
     @ManyToOne

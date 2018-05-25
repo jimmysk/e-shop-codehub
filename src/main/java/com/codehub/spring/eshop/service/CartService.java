@@ -19,6 +19,6 @@ public interface CartService {
 
     public void dropCart(Long userId) throws EShopException;
 
-    public Collection<CartItem> findAll(Long userId);
+    public Collection<CartItem> findAll(Long userId) throws EShopException;
 
 }

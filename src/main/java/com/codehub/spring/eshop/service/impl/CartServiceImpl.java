@@ -88,7 +88,11 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Collection<CartItem> findAll(Long userId) {
-        return cartItemRepository.findAllByUserId(userId);
+    public Collection<CartItem> findAll(Long userId) throws EShopException {
+        Collection<CartItem> cartItems = cartItemRepository.findAllByUserId(userId);
+        if (cartItems.isEmpty()) {
+            throw new CartProductNotFoundException();
+        }
+        return cartItems;
     }
 }

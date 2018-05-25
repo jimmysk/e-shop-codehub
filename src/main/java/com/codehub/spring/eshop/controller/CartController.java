@@ -1,5 +1,6 @@
 package com.codehub.spring.eshop.controller;
 
+import com.codehub.spring.eshop.domain.CartItem;
 import com.codehub.spring.eshop.domain.User;
 import com.codehub.spring.eshop.enums.Size;
 import com.codehub.spring.eshop.exception.EShopException;
@@ -8,9 +9,11 @@ import com.codehub.spring.eshop.service.CartService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 
 /**
  * Created by Dimitris on 17/5/2018.
@@ -109,7 +112,7 @@ public class CartController extends BaseController {
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void updateSize(@ApiParam(name = "Authorization", value = "Authorization",
+    public void deleteCart(@ApiParam(name = "Authorization", value = "Authorization",
             defaultValue = "Bearer YOUR_ACCESS_TOKEN_HERE")
                            @RequestHeader("Authorization") String accessToken)
             throws EShopException {
@@ -117,4 +120,42 @@ public class CartController extends BaseController {
         cartService.dropCart(user.getId());
     }
 
+
+    @GetMapping(value = "user", produces = "application/json")
+    @ApiOperation(value = "Find content of Cart", notes = "Call this endpoint to retrieve the contents of the shopping cart for a given account")
+    @ApiResponses({
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity<Collection<CartItem>> findCartContentByUser(@ApiParam(name = "Authorization", value = "Authorization",
+                                                                            defaultValue = "Bearer YOUR_ACCESS_TOKEN_HERE")
+                                                                          @RequestHeader("Authorization") String accessToken)
+            throws EShopException {
+        User user = verifyToken(accessToken);
+        return ResponseEntity
+                .ok()
+                .body(cartService.findAll(user.getId()));
+
+    }
+
+
+    @GetMapping(value = "user/{userId}", produces = "application/json")
+    @ApiOperation(value = "Find content of Cart by User Id", notes = "Call this endpoint to retrieve the contents of the shopping cart by user id")
+    @ApiResponses({
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity<Collection<CartItem>> findCartContentByUserId(@PathVariable(name = "userId") Long userId,
+                                                                        @ApiParam(name = "Authorization", value = "Authorization",
+                                                                                defaultValue = "Bearer YOUR_ACCESS_TOKEN_HERE")
+                                                                        @RequestHeader("Authorization") String accessToken)
+            throws EShopException {
+
+        isAdminOrFail(verifyToken(accessToken));
+        return ResponseEntity
+                .ok()
+                .body(cartService.findAll(userId));
+    }
 }

@@ -8,6 +8,7 @@ import com.codehub.spring.eshop.exception.EShopException;
 import com.codehub.spring.eshop.service.CartService;
 import com.codehub.spring.eshop.service.OrderService;
 import com.codehub.spring.eshop.service.UserService;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,8 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "e-shop/order")
-public class OrderController {
+@Api(value = "Order", description = "Handle user's order", tags = "Order")
+public class OrderController extends BaseController {
 
     @Autowired
     private UserService userService;
@@ -35,30 +37,43 @@ public class OrderController {
     @Autowired
     private CartService cartService;
 
+    @PostMapping(value = "create", produces = "application/json")
+    @ApiOperation(value = "Create Order", notes = "Call this endpoint to create user's Order")
+    @ApiResponses({
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Order> createOrder(@RequestParam("userId") Long userId,
+                                             @ApiParam(name = "Authorization", value = "Authorization",
+                                                     defaultValue = "Bearer YOUR_ACCESS_TOKEN_HERE")
+                                             @RequestHeader("Authorization") String accessToken) throws EShopException {
 
-//    @PostMapping(consumes = "application/json", produces = "application/json")
-//    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
-//        return ResponseEntity
-//                .status(HttpStatus.CREATED)
-//                .body(orderService.saveOrder(order));
-//    }
-
-    @PostMapping(value = "create")
-    public ResponseEntity<Order> createOrder(@RequestParam("userId") Long userId) throws EShopException {
-
+        verifyToken(accessToken);
         List<CartItem> cartItems = new ArrayList<>(cartService.findAll(userId));
 
         return ResponseEntity
-                .status(HttpStatus.CREATED)
+                .ok()
                 .body(orderService.checkout(cartItems));
     }
 
 
 
-    @PutMapping(value = "updatestatus/{order_id}")
+    @PutMapping(value = "updatestatus/{order_id}", produces = "application/json")
+    @ApiOperation(value = "Update Order's Status", notes = "Call this endpoint to update order's status")
+    @ApiResponses({
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
     public ResponseEntity<Order> updateOrderStatus(@RequestParam(value = "order_id") Integer orderId,
-                                                   @RequestParam(value = "order_status") OrderStatus orderStatus)
+                                                   @RequestParam(value = "order_status") OrderStatus orderStatus,
+                                                   @ApiParam(name = "Authorization", value = "Authorization",
+                                                           defaultValue = "Bearer YOUR_ACCESS_TOKEN_HERE")
+                                                   @RequestHeader("Authorization") String accessToken)
             throws EShopException {
+        isAdminOrFail(verifyToken(accessToken));
         orderService.updateOrderStatus(orderId, orderStatus);
         return ResponseEntity
                 .ok()
@@ -66,8 +81,18 @@ public class OrderController {
     }
 
 
-    @GetMapping(value = "/{orderId}")
-    public ResponseEntity<Order> findOrderById(@PathVariable(name = "orderId") Integer orderId) throws EShopException {
+    @GetMapping(value = "/{orderId}", produces = "application/json")
+    @ApiOperation(value = "Find Order by order's id", notes = "Call this endpoint to find an order by id")
+    @ApiResponses({
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity<Order> findOrderById(@PathVariable(name = "orderId") Integer orderId,
+                                               @ApiParam(name = "Authorization", value = "Authorization",
+                                                       defaultValue = "Bearer YOUR_ACCESS_TOKEN_HERE")
+                                               @RequestHeader("Authorization") String accessToken) throws EShopException {
+        isAdminOrFail(verifyToken(accessToken));
         Optional<Order> order = orderService.findOrderById(orderId);
         return order.map(order1 -> ResponseEntity
         .ok()
@@ -76,8 +101,20 @@ public class OrderController {
         .build());
     }
 
-    @GetMapping(value = "user/{userId}")
-    public ResponseEntity<Collection<Order>> findOrdersByUser(@PathVariable(name = "userId") Long userId) throws EShopException {
+    @GetMapping(value = "user/{userId}", produces = "application/json")
+    @ApiOperation(value = "Find all orders by given user", notes = "Call this endpoint to find all orders by user")
+    @ApiResponses({
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity<Collection<Order>> findOrdersByUser(@PathVariable(name = "userId") Long userId,
+                                                              @ApiParam(name = "Authorization", value = "Authorization",
+                                                                      defaultValue = "Bearer YOUR_ACCESS_TOKEN_HERE")
+                                                              @RequestHeader("Authorization") String accessToken)
+            throws EShopException {
+
+        isAdminOrFail(verifyToken(accessToken));
         User user = userService.findById(userId).get();
         return ResponseEntity
                 .ok()

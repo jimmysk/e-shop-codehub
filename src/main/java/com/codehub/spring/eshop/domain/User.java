@@ -3,9 +3,10 @@ package com.codehub.spring.eshop.domain;
 import com.codehub.spring.eshop.enums.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
-import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -13,7 +14,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
-import static com.codehub.spring.eshop.enums.Role.CUSTOMER;
 
 /**
  * Created by Dimitris on 14/5/2018.
@@ -28,6 +28,7 @@ public class User {
     @Column(name = "user_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ApiModelProperty(hidden = true)
+    @Setter(AccessLevel.NONE)
     private Long id;
 
     @NotBlank(message = "Email cannot be empty")
@@ -67,7 +68,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     @ApiModelProperty(hidden = true)
     // TODO: check if can take values as administrator!
-    private Role role = CUSTOMER ;
+    private Role role;
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore
