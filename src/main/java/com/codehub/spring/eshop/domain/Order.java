@@ -2,10 +2,8 @@ package com.codehub.spring.eshop.domain;
 
 import com.codehub.spring.eshop.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -27,6 +25,8 @@ public class Order {
     @Id
     @Column(name = "order_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty(hidden = true)
+    @Setter(AccessLevel.NONE)
     private int id;
 
     @ManyToOne

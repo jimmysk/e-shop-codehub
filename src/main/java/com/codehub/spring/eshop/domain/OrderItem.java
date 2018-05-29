@@ -2,10 +2,7 @@ package com.codehub.spring.eshop.domain;
 
 import com.codehub.spring.eshop.enums.Size;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -26,6 +23,7 @@ public class OrderItem {
     @Id
     @Column(name = "order_item_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
     private Long id;
 
     @ManyToOne

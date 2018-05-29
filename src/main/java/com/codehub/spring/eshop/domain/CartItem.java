@@ -24,6 +24,7 @@ public class CartItem {
     @Id
     @Column(name = "cart_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
     private Long cartId;
 
     @Column(name = "user_id")
@@ -46,12 +47,4 @@ public class CartItem {
 
     @Column(name = "size")
     private Size size;
-
-//    @OneToOne(optional = false)
-//    @JoinColumn(name = "user_id", nullable = false)
-//    private User user;
-
-//    @OneToMany
-//    private Set<Product> products;
-
 }

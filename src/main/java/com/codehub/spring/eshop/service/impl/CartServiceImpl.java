@@ -6,6 +6,7 @@ import com.codehub.spring.eshop.enums.Size;
 import com.codehub.spring.eshop.exception.CartNotFoundException;
 import com.codehub.spring.eshop.exception.CartProductNotFoundException;
 import com.codehub.spring.eshop.exception.EShopException;
+import com.codehub.spring.eshop.exception.ProductAlreadyAddedException;
 import com.codehub.spring.eshop.repository.CartItemRepository;
 import com.codehub.spring.eshop.repository.ProductRepository;
 import com.codehub.spring.eshop.service.CartService;
@@ -27,7 +28,7 @@ public class CartServiceImpl implements CartService {
     ProductRepository productRepository;
 
     @Override
-    public void addItem(Long userId, Long productId, BigDecimal quantity, Size size) throws CartProductNotFoundException {
+    public void addItem(Long userId, Long productId, BigDecimal quantity, Size size) throws EShopException {
         Optional<Product> product = productRepository.findById(productId);
         if (product.isPresent()) {
             CartItem cart = CartItem.builder()
@@ -41,7 +42,9 @@ public class CartServiceImpl implements CartService {
                     .build();
 
             Optional<CartItem> cartItem = cartItemRepository.findByUserIdAndProductId(userId, productId);
-            cartItem.ifPresent(cartItem1 -> cart.setCartId(cartItem1.getCartId()));
+            if (cartItem.isPresent()) {
+                throw new ProductAlreadyAddedException();
+            }
             cartItemRepository.save(cart);
         } else {
             throw new CartProductNotFoundException();
@@ -85,7 +88,11 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Collection<CartItem> findAll(Long userId) {
-        return cartItemRepository.findAllByUserId(userId);
+    public Collection<CartItem> findAll(Long userId) throws EShopException {
+        Collection<CartItem> cartItems = cartItemRepository.findAllByUserId(userId);
+        if (cartItems.isEmpty()) {
+            throw new CartProductNotFoundException();
+        }
+        return cartItems;
     }
 }

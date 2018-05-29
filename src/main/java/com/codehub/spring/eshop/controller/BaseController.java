@@ -30,7 +30,7 @@ abstract class BaseController {
 
     void isAdminOrFail(User user) throws UserNotAuthException {
         if (!user.getRole().equals(Role.ADMIN)) {
-            throw new UserNotAuthException("Unable to retrieve users list");
+            throw new UserNotAuthException("You are not authorized to make this action");
         }
 
     }

@@ -1,6 +1,10 @@
 package com.codehub.spring.eshop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -17,6 +21,8 @@ public class ProductCategory {
     @Id
     @Column(name = "category_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty(hidden = true)
+    @Setter(AccessLevel.NONE)
     private Long id;
 
     @Column(name = "category_desc")
@@ -25,6 +31,7 @@ public class ProductCategory {
     @Column(name = "other_category_info")
     private String otherCategoryInfo;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "productCategory")
     private Set<Product> products;
 }

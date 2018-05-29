@@ -2,6 +2,7 @@ package com.codehub.spring.eshop.service;
 
 import com.codehub.spring.eshop.domain.AccessToken;
 import com.codehub.spring.eshop.domain.User;
+import com.codehub.spring.eshop.enums.Role;
 import com.codehub.spring.eshop.exception.EShopException;
 
 import java.util.List;
@@ -14,6 +15,8 @@ public interface UserService {
     public AccessToken login(String email, String password) throws EShopException;
 
     public User update(User user) throws EShopException;
+
+    public User updateUserRole(Long userId, Role role) throws EShopException;
 
     public void logout(String accessToken);
 

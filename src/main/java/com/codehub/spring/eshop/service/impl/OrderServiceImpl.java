@@ -1,10 +1,8 @@
 package com.codehub.spring.eshop.service.impl;
 
-import com.codehub.spring.eshop.domain.CartItem;
-import com.codehub.spring.eshop.domain.Order;
-import com.codehub.spring.eshop.domain.OrderItem;
-import com.codehub.spring.eshop.domain.User;
+import com.codehub.spring.eshop.domain.*;
 import com.codehub.spring.eshop.enums.OrderStatus;
+import com.codehub.spring.eshop.exception.CartProductNotFoundException;
 import com.codehub.spring.eshop.exception.EShopException;
 import com.codehub.spring.eshop.exception.OrderNotFoundException;
 import com.codehub.spring.eshop.repository.OrderItemRepository;
@@ -83,9 +81,18 @@ public class OrderServiceImpl implements OrderService {
 
         for (CartItem cartItem:cartItems) {
 
+            Optional<Product> product = productRepository.findById(cartItem.getProductId());
+            if (!product.isPresent()) {
+                throw new CartProductNotFoundException();
+            }
+
+            // Decrease Stock of product
+            product.get().setStock(product.get().getStock().subtract(cartItem.getQuantity()));
+            productRepository.save(product.get());
+
             OrderItem orderItem = OrderItem.builder()
                     .order(order1)
-                    .product(productRepository.findById(cartItem.getProductId()).get())
+                    .product(product.get())
                     .price(cartItem.getPrice())
                     .tax(cartItem.getTax())
                     .quantity(cartItem.getQuantity())
