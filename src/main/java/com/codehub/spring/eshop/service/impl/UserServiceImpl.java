@@ -47,8 +47,24 @@ public class UserServiceImpl implements UserService {
         if (!userRepository.existsById(user.getId())) {
             throw new UserNotFoundException("User not found");
         }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        User userLoaded = userRepository.findById(user.getId()).get();
+
+        // Check if User change his password
+        if (!user.getPassword().equals(userLoaded.getPassword())) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+        user.setRole(Role.CUSTOMER);
         return userRepository.save(user);
+    }
+
+    @Override
+    public User updateUserRole(Long userId, Role role) throws EShopException {
+        Optional<User> user = userRepository.findById(userId);
+        if (!user.isPresent()) {
+            throw new UserNotFoundException("User not found");
+        }
+        user.get().setRole(role);
+        return userRepository.save(user.get());
     }
 
 

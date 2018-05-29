@@ -132,6 +132,26 @@ public class UserController extends BaseController {
                 .body(userService.findById(user.getId()).get());
     }
 
+
+    @PutMapping(value = "updaterole", produces = "application/json")
+    @ApiOperation(value = "Update User's Role", notes = "Call this endpoint to update user's role")
+    @ApiResponses({
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity<User> updateRole(@RequestParam(value = "user_id") Long userId,
+                                           @RequestParam(value = "role") Role role,
+                                           @ApiParam(name = "Authorization", value = "Authorization",
+                                                   defaultValue = "Bearer YOUR_ACCESS_TOKEN_HERE")
+                                           @RequestHeader("Authorization") String accessToken) throws EShopException {
+        isAdminOrFail(verifyToken(accessToken));
+        return ResponseEntity
+                .ok()
+                .body(userService.updateUserRole(userId, role));
+    }
+
+
     @PostMapping(value = "/login", produces = "application/json")
     @ApiOperation(value = "Login", notes = "Call this endpoint to login as user")
     @ApiResponses({
