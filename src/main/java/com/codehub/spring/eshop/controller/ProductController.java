@@ -75,6 +75,19 @@ public class ProductController extends BaseController {
                 .body(productService.findAllProducts());
     }
 
+
+    @GetMapping(value = "/top", produces = "application/json")
+    @ApiOperation(value = "Find top selling products", notes = "Call this endpoint to find the top selling products")
+    @ApiResponses({
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity findTopSellingProducts() {
+        return ResponseEntity
+                .ok()
+                .body(productService.findTopSellingProducts());
+    }
+
     @DeleteMapping(value = "/{productId}", produces = "application/json")
     @ApiOperation(value = "Remove Product", notes = "Call this endpoint to remove a product")
     @ApiResponses({
