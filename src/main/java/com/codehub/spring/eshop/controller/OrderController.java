@@ -140,4 +140,24 @@ public class OrderController extends BaseController {
                 .ok()
                 .body(orderService.findAllOrdersByUser(user));
     }
+
+
+
+    @GetMapping(value = "all", produces = "application/json")
+    @ApiOperation(value = "Find all orders", notes = "Call this endpoint to find all orders submitted")
+    @ApiResponses({
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity<Collection<Order>> findAllOrdersSubmitted(@ApiParam(name = "Authorization", value = "Authorization",
+                                                                            defaultValue = "Bearer YOUR_ACCESS_TOKEN_HERE")
+                                                                    @RequestHeader("Authorization") String accessToken)
+            throws EShopException{
+
+        isAdminOrFail(verifyToken(accessToken));
+        return ResponseEntity
+                .ok()
+                .body(orderService.findAllOrders());
+    }
 }

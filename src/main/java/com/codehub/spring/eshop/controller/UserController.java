@@ -107,12 +107,12 @@ public class UserController extends BaseController {
     public ResponseEntity<List<User>> findUserOrdersGreaterThan(@PathVariable(name = "min_orders")Integer minOrder,
                                                                                           @ApiParam(name = "Authorization", value = "Authorization",
                                                                                                   defaultValue = "Bearer YOUR_ACCESS_TOKEN_HERE")
-                                                                                                @RequestHeader("Authorization") String accessToken)
+                                                                                          @RequestHeader("Authorization") String accessToken)
             throws EShopException {
         isAdminOrFail(verifyToken(accessToken));
         return ResponseEntity
                 .ok()
-                .body(userService.findAll());
+                .body(userService.findUserOrdersGreaterThan(minOrder));
     }
 
     @PostMapping(produces = "application/json")
