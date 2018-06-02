@@ -37,4 +37,6 @@ public interface ProductService {
 
     public Collection<Product> findByStockLessThan(BigDecimal value);
 
+    public Collection<Product> findByTotalOrdersOrderedByProductCategory();
+
 }

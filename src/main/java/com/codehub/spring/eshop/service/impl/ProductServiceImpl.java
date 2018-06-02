@@ -94,4 +94,9 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findByStockLessThan(value);
     }
 
+    @Override
+    public Collection<Product> findByTotalOrdersOrderedByProductCategory() {
+        return productRepository.findByTotalOrdersOrderedByProductCategory();
+    }
+
 }

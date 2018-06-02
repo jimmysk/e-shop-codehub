@@ -7,7 +7,8 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.util.Collection;
-import java.util.List;
+
+
 
 /**
  * Created by Dimitris on 16/5/2018.
@@ -21,6 +22,18 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     public Collection<Product> findAllByKeywordsIsContaining(String keyword);
 
     public Collection<Product> findByStockLessThan(BigDecimal value);
+
+    /*@Query("SELECT category_desc AS Category, COUNT(order_id) AS Total_Orders from product_categories " +
+            " JOIN products on product_categories.category_id = products.category_id " +
+            " JOIN order_items ON products.product_id = order_items.product_id " +
+            " GROUP BY product_categories.category_desc " +
+            " ORDER BY Total_Orders " , nativeQuery = true)*/
+    @Query(value = " SELECT category_desc AS Category, products.product_desc AS Product, COUNT(order_id) AS total_orders FROM product_categories " +
+            " JOIN products ON product_categories.category_id = products.category_id " +
+            " JOIN order_items ON products.product_id = order_items.product_id " +
+            " GROUP BY product_categories.category_desc, products.product_desc " +
+            " ORDER BY products.product_desc, total_orders" , nativeQuery = true)
+    public Collection<Product> findByTotalOrdersOrderedByProductCategory();
 
 
 }

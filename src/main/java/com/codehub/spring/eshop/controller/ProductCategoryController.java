@@ -1,5 +1,6 @@
 package com.codehub.spring.eshop.controller;
 
+import com.codehub.spring.eshop.domain.Product;
 import com.codehub.spring.eshop.domain.ProductCategory;
 import com.codehub.spring.eshop.exception.EShopException;
 import com.codehub.spring.eshop.service.ProductService;
@@ -87,6 +88,18 @@ public class ProductCategoryController extends BaseController {
                 .body(productCategory1)).orElseGet(() -> ResponseEntity
                 .notFound()
                 .build());
+    }
+
+    @GetMapping(value = "/sales", produces = "application/json")
+    @ApiOperation(value = "Find Total sales by Category", notes = "Call this endpoint to find total sales by Category")
+    @ApiResponses({
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity<Collection<Product>> findByTotalOrdersOrderedByProductCategory() {
+        return ResponseEntity
+                .ok()
+                .body(productService.findByTotalOrdersOrderedByProductCategory());
     }
 
     @GetMapping(value = "all", produces = "application/json")
