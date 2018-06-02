@@ -23,6 +23,8 @@ public interface ReportRepository extends JpaRepository<ProdReports, Long> {
             "group by Prd.product_id order by total DESC " +
             "limit 10", nativeQuery = true)
     List<ProdReports> findTopSellingProducts();
+
+
     }
 
 

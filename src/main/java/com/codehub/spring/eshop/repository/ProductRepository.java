@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 
@@ -18,6 +19,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     public Collection<Product> findAllByProductCategory(Long categoryId);
 
     public Collection<Product> findAllByKeywordsIsContaining(String keyword);
+
+    public Collection<Product> findByStockLessThan(BigDecimal value);
 
 
 }

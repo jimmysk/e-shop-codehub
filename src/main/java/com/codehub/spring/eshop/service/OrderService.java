@@ -22,4 +22,6 @@ public interface OrderService {
 
     public Collection<Order> findAllOrdersByUser(User user) throws EShopException;
 
+    public Collection<Order> findByOrderStatusEquals(OrderStatus status) throws EShopException;;
+
 }

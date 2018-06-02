@@ -28,4 +28,6 @@ public interface UserService {
 
     public Optional<User> findById(Long id) throws EShopException;
 
+    public List<User> findUserOrdersGreaterThan(Integer minOrder) throws EShopException;
+
 }

@@ -13,6 +13,7 @@ import com.codehub.spring.eshop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -84,7 +85,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProdReports> findTopSellingProducts() {
+
         return productReportRepository.findTopSellingProducts();
+    }
+
+    @Override
+    public Collection<Product> findByStockLessThan(BigDecimal value) {
+        return productRepository.findByStockLessThan(value);
     }
 
 }

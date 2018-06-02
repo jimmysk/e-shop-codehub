@@ -97,6 +97,24 @@ public class UserController extends BaseController {
                 .body(userService.findAll());
     }
 
+    @GetMapping(value = "/orders/{min_orders}" , produces = "application/json")
+    @ApiOperation(value = "Get Users by nr. of orders", notes = "Call this endpoint to get a list of users with min orders")
+    @ApiResponses({
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity<List<User>> findUserOrdersGreaterThan(@PathVariable(name = "min_orders")Integer minOrder,
+                                                                                          @ApiParam(name = "Authorization", value = "Authorization",
+                                                                                                  defaultValue = "Bearer YOUR_ACCESS_TOKEN_HERE")
+                                                                                                @RequestHeader("Authorization") String accessToken)
+            throws EShopException {
+        isAdminOrFail(verifyToken(accessToken));
+        return ResponseEntity
+                .ok()
+                .body(userService.findAll());
+    }
+
     @PostMapping(produces = "application/json")
     @ApiOperation(value = "Register", notes = "Call this endpoint to register as a new user")
     @ApiResponses({

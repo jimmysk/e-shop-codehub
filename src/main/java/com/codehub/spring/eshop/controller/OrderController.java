@@ -9,6 +9,7 @@ import com.codehub.spring.eshop.service.CartService;
 import com.codehub.spring.eshop.service.OrderService;
 import com.codehub.spring.eshop.service.UserService;
 import io.swagger.annotations.*;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -99,6 +100,25 @@ public class OrderController extends BaseController {
         .body(order1)).orElseGet(() -> ResponseEntity
         .notFound()
         .build());
+    }
+
+    @GetMapping(value = "/status/{ordStatus}", produces = "application/json")
+    @ApiOperation(value = "Find Order by order's status", notes = "Call this endpoint to find order by status. Default request is Ordered")
+    @ApiResponses({
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity<Collection<Order>> findByOrderStatusEquals(@PathVariable(name = "ordStatus", required = false) OrderStatus ordStatus,
+                                               @ApiParam(name = "Authorization", value = "Authorization",
+                                                       defaultValue = "Bearer YOUR_ACCESS_TOKEN_HERE")
+                                               @RequestHeader("Authorization") String accessToken) throws EShopException {
+
+        isAdminOrFail(verifyToken(accessToken));
+        if (ordStatus == null) ordStatus = OrderStatus.ORDERED ;
+        return ResponseEntity
+                .ok()
+                .body(orderService.findByOrderStatusEquals(ordStatus));
     }
 
     @GetMapping(value = "user/{userId}", produces = "application/json")
