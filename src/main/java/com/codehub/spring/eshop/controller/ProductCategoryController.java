@@ -1,5 +1,6 @@
 package com.codehub.spring.eshop.controller;
 
+import com.codehub.spring.eshop.DTO.SalesByCategoryDto;
 import com.codehub.spring.eshop.domain.Product;
 import com.codehub.spring.eshop.domain.ProductCategory;
 import com.codehub.spring.eshop.exception.EShopException;
@@ -96,7 +97,7 @@ public class ProductCategoryController extends BaseController {
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
-    public ResponseEntity<Collection<Product>> findByTotalOrdersOrderedByProductCategory() {
+    public ResponseEntity<Collection<SalesByCategoryDto>> findByTotalOrdersOrderedByProductCategory() {
         return ResponseEntity
                 .ok()
                 .body(productService.findByTotalOrdersOrderedByProductCategory());

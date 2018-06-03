@@ -2,6 +2,7 @@ package com.codehub.spring.eshop.service;
 
 
 import com.codehub.spring.eshop.DTO.ProdReports;
+import com.codehub.spring.eshop.DTO.SalesByCategoryDto;
 import com.codehub.spring.eshop.domain.Product;
 import com.codehub.spring.eshop.domain.ProductCategory;
 import com.codehub.spring.eshop.exception.EShopException;
@@ -37,6 +38,6 @@ public interface ProductService {
 
     public Collection<Product> findByStockLessThan(BigDecimal value);
 
-    public Collection<Product> findByTotalOrdersOrderedByProductCategory();
+    public Collection<SalesByCategoryDto> findByTotalOrdersOrderedByProductCategory();
 
 }

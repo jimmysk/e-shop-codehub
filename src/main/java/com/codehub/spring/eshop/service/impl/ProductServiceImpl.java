@@ -2,6 +2,7 @@ package com.codehub.spring.eshop.service.impl;
 
 
 import com.codehub.spring.eshop.DTO.ProdReports;
+import com.codehub.spring.eshop.DTO.SalesByCategoryDto;
 import com.codehub.spring.eshop.domain.Product;
 import com.codehub.spring.eshop.domain.ProductCategory;
 import com.codehub.spring.eshop.exception.EShopException;
@@ -95,7 +96,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Collection<Product> findByTotalOrdersOrderedByProductCategory() {
+    public Collection<SalesByCategoryDto> findByTotalOrdersOrderedByProductCategory() {
         return productRepository.findByTotalOrdersOrderedByProductCategory();
     }
 
