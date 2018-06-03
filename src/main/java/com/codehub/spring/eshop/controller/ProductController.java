@@ -89,13 +89,13 @@ public class ProductController extends BaseController {
                 .body(productService.findTopSellingProducts());
     }
 
-    @GetMapping(value = "/stock/{base}", produces = "application/json")
+    @GetMapping(value = "/stock", produces = "application/json")
     @ApiOperation(value = "Find out of stock", notes = "Call this endpoint to find products with stock less than base")
     @ApiResponses({
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
-    public ResponseEntity findByStockLessThan(@PathVariable(name = "base", required=false) BigDecimal base) {
+    public ResponseEntity findByStockLessThan(@RequestParam(name = "base", required=false) BigDecimal base) {
 
         if(base == null || base.compareTo(BigDecimal.ONE)<0 ) base = BigDecimal.ONE;
         return ResponseEntity
