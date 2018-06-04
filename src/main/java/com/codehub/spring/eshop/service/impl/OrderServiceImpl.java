@@ -122,6 +122,24 @@ public class OrderServiceImpl implements OrderService {
         return orders;
     }
 
+    @Override
+    public Collection<Order> findByOrderStatusEquals(OrderStatus status) throws EShopException {
+        Collection<Order> orders = orderRepository.findByOrderStatusEquals(status);
+        if (orders.isEmpty()) {
+            throw new OrderNotFoundException();
+        }
+        return orders;
+    }
+
+    @Override
+    public Collection<Order> findAllOrders() throws EShopException {
+        Collection<Order> orders = orderRepository.findAll();
+        if (orders.isEmpty()) {
+            throw new OrderNotFoundException();
+        }
+        return orders;
+    }
+
     //Calculate Amount of Order by CartList
     private BigDecimal getCartAmount(List<CartItem> cartItems) {
         BigDecimal amount = new BigDecimal("0");

@@ -1,10 +1,15 @@
 package com.codehub.spring.eshop.service;
 
+
+import com.codehub.spring.eshop.DTO.ProdReports;
+import com.codehub.spring.eshop.DTO.SalesByCategoryDto;
 import com.codehub.spring.eshop.domain.Product;
 import com.codehub.spring.eshop.domain.ProductCategory;
 import com.codehub.spring.eshop.exception.EShopException;
 
+import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 public interface ProductService {
@@ -28,5 +33,11 @@ public interface ProductService {
     public Collection<Product> findProductsByCategory(Long categoryId);
 
     public Collection<Product> findProductsByKeyword(String keyword);
+
+    public List<ProdReports> findTopSellingProducts();
+
+    public Collection<Product> findByStockLessThan(BigDecimal value);
+
+    public Collection<SalesByCategoryDto> findByTotalOrdersOrderedByProductCategory();
 
 }

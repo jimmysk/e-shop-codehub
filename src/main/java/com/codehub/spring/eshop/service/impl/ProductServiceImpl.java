@@ -1,16 +1,22 @@
 package com.codehub.spring.eshop.service.impl;
 
+
+import com.codehub.spring.eshop.DTO.ProdReports;
+import com.codehub.spring.eshop.DTO.SalesByCategoryDto;
 import com.codehub.spring.eshop.domain.Product;
 import com.codehub.spring.eshop.domain.ProductCategory;
 import com.codehub.spring.eshop.exception.EShopException;
 import com.codehub.spring.eshop.exception.ProductCategoryNotFoundException;
 import com.codehub.spring.eshop.repository.ProductCategoryRepository;
 import com.codehub.spring.eshop.repository.ProductRepository;
+import com.codehub.spring.eshop.repository.ReportRepository;
 import com.codehub.spring.eshop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,6 +24,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     ProductRepository productRepository;
+
+    @Autowired
+    ReportRepository productReportRepository;
 
     @Autowired
     ProductCategoryRepository productCategoryRepository;
@@ -74,4 +83,21 @@ public class ProductServiceImpl implements ProductService {
     public Collection<Product> findProductsByKeyword(String keyword) {
         return productRepository.findAllByKeywordsIsContaining(keyword);
     }
+
+    @Override
+    public List<ProdReports> findTopSellingProducts() {
+
+        return productReportRepository.findTopSellingProducts();
+    }
+
+    @Override
+    public Collection<Product> findByStockLessThan(BigDecimal value) {
+        return productRepository.findByStockLessThan(value);
+    }
+
+    @Override
+    public Collection<SalesByCategoryDto> findByTotalOrdersOrderedByProductCategory() {
+        return productRepository.findByTotalOrdersOrderedByProductCategory();
+    }
+
 }

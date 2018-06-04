@@ -30,7 +30,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public void addItem(Long userId, Long productId, BigDecimal quantity, Size size) throws EShopException {
         Optional<Product> product = productRepository.findById(productId);
-        if (product.isPresent()) {
+        if (product.isPresent() && product.get().getStock().compareTo(quantity)> -1) {
             CartItem cart = CartItem.builder()
                     .userId(userId)
                     .productId(productId)

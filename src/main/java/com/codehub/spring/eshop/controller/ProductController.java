@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -73,6 +74,33 @@ public class ProductController extends BaseController {
         return ResponseEntity
                 .ok()
                 .body(productService.findAllProducts());
+    }
+
+
+    @GetMapping(value = "/top", produces = "application/json")
+    @ApiOperation(value = "Find top selling products", notes = "Call this endpoint to find the top selling products")
+    @ApiResponses({
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity findTopSellingProducts() {
+        return ResponseEntity
+                .ok()
+                .body(productService.findTopSellingProducts());
+    }
+
+    @GetMapping(value = "/stock", produces = "application/json")
+    @ApiOperation(value = "Find out of stock", notes = "Call this endpoint to find products with stock less than base")
+    @ApiResponses({
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")
+    })
+    public ResponseEntity findByStockLessThan(@RequestParam(name = "base", required=false) BigDecimal base) {
+
+        if(base == null || base.compareTo(BigDecimal.ONE)<0 ) base = BigDecimal.ONE;
+        return ResponseEntity
+                .ok()
+                .body(productService.findByStockLessThan(base));
     }
 
     @DeleteMapping(value = "/{productId}", produces = "application/json")

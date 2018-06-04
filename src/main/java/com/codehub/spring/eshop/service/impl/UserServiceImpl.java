@@ -104,6 +104,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findAll() {
+
         return userRepository.findAll();
     }
 
@@ -123,6 +124,11 @@ public class UserServiceImpl implements UserService {
             throw new UserNotFoundException("No user found with this Id");
         }
         return user;
+    }
+
+    @Override
+    public List<User> findUserOrdersGreaterThan(Integer minOrder) throws EShopException{
+        return userRepository.findUserOrdersGreaterThan(minOrder);
     }
 
 
